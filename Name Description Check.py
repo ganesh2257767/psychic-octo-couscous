@@ -24,7 +24,7 @@ def check(url, req, chann, data):
     else:
         offer_name_desc = {}
         for offer in offers:
-            offer_id = offer["matchingProductOffering"]["ID"]
+            offer_id = str(offer["matchingProductOffering"]["ID"])
             offer_name = offer["matchingProductOffering"]["title"]
             offer_desc = offer["matchingProductOffering"]["description"]
 
@@ -90,7 +90,7 @@ window = sg.Window('Offer Name/Description Checker', main_layout)
 
 while True:
     event, values = window.read()
-    print(event, values)
+    
     if event == sg.WIN_CLOSED or event == 'Cancel':
         break
 
