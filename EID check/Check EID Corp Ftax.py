@@ -1,6 +1,8 @@
 import PySimpleGUI as sg
 import pandas as pd
+import os
 
+ico_path = os.getcwd()
 eid_df = pd.DataFrame()
 
 def fmtcols(mylist, cols):
@@ -10,12 +12,10 @@ def fmtcols(mylist, cols):
 
 def from_eid(eid):
     corp_ftax = []
-    market = set()
     for i in master_df.index:
         if master_df[3][i] == eid.upper():
             a = str(master_df[2][i]) + ' - ' + master_df[4][i].strip()
             corp_ftax.append(a)
-            # market.add(master_df[4][i].strip())
 
     if corp_ftax:
         sg.PopupScrolled(
@@ -104,7 +104,7 @@ layout = [
 ]
 
 
-window = sg.Window('Corp Ftax Combination checker', layout, resizable=True, icon=r'main1.ico')
+window = sg.Window('Corp Ftax Combination checker', layout, resizable=True, icon=ico_path+'\\main1.ico')
 
 upload_flag = True
 while True:
