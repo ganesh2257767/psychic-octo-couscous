@@ -104,7 +104,7 @@ layout = [
 ]
 
 
-window = sg.Window('Corp Ftax Combination checker', layout, resizable=True, icon=r'main.ico')
+window = sg.Window('Corp Ftax Combination checker', layout, resizable=True, icon=r'main1.ico')
 
 upload_flag = True
 while True:
