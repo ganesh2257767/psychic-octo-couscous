@@ -1,0 +1,41 @@
+{
+    "sessionId": "EDLHXZHJII1O6XRUZLA",
+    "success": true,
+    "errorCode": 200,
+    "errorMessage": "200",
+    "detailedAccounts": [
+        {
+            "id": 0,
+            "clust": "93",
+            "corp": "7708",
+            "ftax": "44",
+            "hfstatus": "3",
+            "house": "104862",
+            "cust": "1",
+            "mkt": "A",
+            "service_apt": "STE",
+            "service_aptn": "A",
+            "service_city": "SPLENDORA",
+            "service_housenbr": "16940",
+            "service_state": "TX",
+            "service_zipcode": "77372",
+            "servicestreetaddr": "16940 MAIN ST",
+            "eligibilityId": "FAM10",
+            "eligibilityIdList": [
+                "FAM10"
+            ],
+            "tdrop": "O"
+        }
+    ],
+    "areaDetails": {
+        "id": 0,
+        "clust": "93",
+        "corp": "7708",
+        "ftax": "75",
+        "mkt": "K",
+        "eligibilityId": "FAM10",
+        "eligibilityIdList": [
+            "FAM10"
+        ]
+    }
+}

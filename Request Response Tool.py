@@ -6,8 +6,12 @@ import os
 os.makedirs('JSON Files', exist_ok=True)
 os.chdir(os.getcwd() + '\\JSON Files')
 path = os.getcwd()
-# print('Created Path: ', path)
 
+url1 = 'https://ws-uat.suddenlink.cequel3.com'
+url_findAddress = '/optimum-ecomm-abstraction-ws/rest/uow/findAddress'
+url_createShoppingCart = '/optimum-ecomm-abstraction-ws/rest/uow/createShoppingCart'
+url_searchProductOffering = '/optimum-ecomm-abstraction-ws/rest/uow/searchProductOffering'
+url_updateShoppingCart = '/optimum-ecomm-abstraction-ws/rest/uow/updateShoppingCart'
 
 layout1 = [
     [sg.Text('Street Name*', size=(11, 1)), sg.InputText(key='-STREET-', size=(25, 1))],
@@ -31,16 +35,11 @@ layout = [
     [sg.Column(layout1, key='-COL1-'),
     sg.Column(layout2, key='-COL2-', visible=False)]
 ]
-window = sg.Window('Request Reponse', layout)
 
-url1 = 'https://ws-uat.suddenlink.cequel3.com'
-url_findAddress = '/optimum-ecomm-abstraction-ws/rest/uow/findAddress'
-url_createShoppingCart = '/optimum-ecomm-abstraction-ws/rest/uow/createShoppingCart'
-url_searchProductOffering = '/optimum-ecomm-abstraction-ws/rest/uow/searchProductOffering'
-url_updateShoppingCart = '/optimum-ecomm-abstraction-ws/rest/uow/updateShoppingCart'
+window = sg.Window('Request Reponse', layout, icon=r'req.ico')
 
 while True:
-    event, values = window.Read()
+    event, values = window.read()
     print(f'Event: {event} | Values: {values}')
     if event == sg.WIN_CLOSED or event == 'Cancel':
         break
@@ -96,8 +95,6 @@ while True:
                     except KeyError:
                         eid = ''
                     url_csc = url1 + env + url_createShoppingCart
-                    # print(f'URL Find Address: {url_csc}')
-                    # print(ftax, city, state, cluster, market, corp, house, cust, eid)
 
                     createShoppingCart_payload = f'''{{"customerType":"R","isCommercialAccept":false,"serviceAddress":{{"apt":"{apt}","fta":"{ftax}","street":"{street}","city":"{city}","state":"{state}","zipcode":"{zip}","type":"","clusterCode":"{cluster}","mkt":"{market}","corp":"{corp}","house":"{house}","cust":"{cust}"}},"locale":"en_US"}}'''
                     createShoppingCart_request = json.loads(createShoppingCart_payload)
