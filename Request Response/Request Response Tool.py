@@ -4,6 +4,7 @@ import json
 import os
 
 os.makedirs('JSON Files', exist_ok=True)
+ico_path = os.getcwd()
 os.chdir(os.getcwd() + '\\JSON Files')
 path = os.getcwd()
 
@@ -36,7 +37,7 @@ layout = [
     sg.Column(layout2, key='-COL2-', visible=False)]
 ]
 
-window = sg.Window('Request Reponse', layout, resizable=True, icon=r'req.ico')
+window = sg.Window('Request Reponse', layout, icon=ico_path+'\\req.ico', resizable=True)
 
 while True:
     event, values = window.read()
@@ -59,7 +60,6 @@ while True:
             lst = [k for k, v in values.items() if v == True]
             promo, channel, env = lst
             url_fa = url1 + env + url_findAddress
-            # print(f'URL Find Address: {url_fa}')
 
 
             findAddress_payload = f'''{{"address1" : "{street}", "address2": "{apt}", "zip" : "{zip}"}}'''
@@ -69,8 +69,6 @@ while True:
             except:
                 sg.PopupError("Network Issue or Altice VPN not connected!")
             else:
-                # print(json.dumps(findAddress_response, indent=4))
-
                 with open('findAddress_request.json', 'w+', encoding='utf-8') as fa_req:
                     fa_req.write(json.dumps(findAddress_request, indent=4))
 
@@ -78,7 +76,6 @@ while True:
                     fa_res.write(json.dumps(findAddress_response, indent=4))
                 try:
                     add_list = findAddress_response["detailedAccounts"][0]
-                    # print(add_list)
                 except IndexError:
                     sg.PopupError('Invalid Address')
                 else:
@@ -101,9 +98,6 @@ while True:
                     
                     createShoppingCart_response = requests.post(url_csc, json=createShoppingCart_request, verify=False).json()
 
-                
-                    # print(json.dumps(createShoppingCart_response, indent=4))
-
                     with open('createShoppingCart_request.json', 'w+', encoding='utf-8') as csc_req:
                         csc_req.write(json.dumps(createShoppingCart_request, indent=4))
 
@@ -111,13 +105,10 @@ while True:
                         csc_res.write(json.dumps(createShoppingCart_response, indent=4))
 
                     cartID = createShoppingCart_response["createShoppingCartRESTReturn"]["cartId"]
-                    # print(f'Cart ID: {cartID}')
 
                     url_prdOff = url1 + env + url_searchProductOffering
-                    # print(f'URL Find Address: {url_prdOff}')
 
                     searchProductOffering_payload = f'''{{"salesContext":{{"localeString":"en_US","salesChannel":"{channel}"}},"searchProductOfferingFilterInfo":{{"oolAvailable":true,"ovAvailable":true,"ioAvailable":true,"includeExpiredOfferings":false,"salesRuleContext":{{"customerProfile":{{"anonymous":true}},"customerInfo":{{"customerType":"R","newCustomer":true,"orderType":"Install","isPromotion":{promo},"eligibilityID":"{eid}"}}}},"eligibilityStatus":[{{"code":"EA"}}]}},"offeringReadMask":{{"value":"SUMMARY"}},"checkCustomerProductOffering":false,"locale":"en_US","cartId":"{cartID}","serviceAddress":{{"apt":"{apt}","fta":"{ftax}","street":"{street}","city":"{city}","state":"{state}","zipcode":"{zip}","type":"","clusterCode":"{cluster}","mkt":"{market}","corp":"{corp}","house":"{house}","cust":"{cust}"}},"generics":false}}'''
-                    # print(searchProductOffering_payload)
                     searchProductOffering_request = json.loads(searchProductOffering_payload)
                     
                     searchProductOffering_response = requests.post(url_prdOff, json=searchProductOffering_request, verify=False).json()
@@ -125,7 +116,6 @@ while True:
 
                     for x in offers:
                         offer_list.append(x["matchingProductOffering"]["ID"] + '-' + x["matchingProductOffering"]["title"])
-                    # print(offer_list)
 
                     with open('searchProductOffering_request.json', 'w+', encoding='utf-8') as spo_req:
                         spo_req.write(json.dumps(searchProductOffering_request, indent=4))
@@ -157,8 +147,7 @@ while True:
                 spec = [y["productSpecs"][0]["ID"] for y in x["matchingProductOffering"]["productOfferingProductSpecs"]]
                 offerID = x["matchingProductOffering"]["ID"]
                 offerName = x["matchingProductOffering"]["title"]
-                # print(offerID, offerName, spec)
-                # of_tup = (offerID, offerName, spec)
+
                 if len(spec) == 1:
                     prod_to_conf = f'''{{"productSpecIdentifier":{{"productOfferingID":"{offerID}","productSpecID":"{spec[0]}"}}}}'''
                 if len(spec) == 2:
@@ -173,7 +162,7 @@ while True:
                 url_usc = url1 + env + url_updateShoppingCart
                 updateShoppingCart_payload = f'''{{"cartId":"{cartID}","isCheckEligibility":false,"productsToConfigure":[{prod_to_conf}],"ruleExecutionContext":{{"customerInfo":{{"customerType":"R","newCustomer":true}},"customerProfile":{{"anonymous":true}},"isOffline":false,"isFullXml":true,"productInfo":{{"services":{service}}}}},"saleContext":{{"localeString":"en_US","salesChannel":"{channel}"}},"locale":"en_US","serviceAddress":{{"zipcode":"{zip}","fta":"{ftax}","corp":"{corp}","city":"{city}","street":"{street}","mkt":"{market}","clusterCode":"{cluster}","state":"{state}","house":"{house}","cust":"{cust}"}}}}'''
                 updateShoppingCart_request = json.loads(updateShoppingCart_payload)
-                # print(json.dumps(updateShoppingCart_request, indent = 4))
+
                 updateShoppingCart_response = requests.post(url_usc, json=updateShoppingCart_request, verify=False).json()
 
                 with open(f'{offerID}_{offerName}_request.json', 'w+', encoding='utf-8') as usc_req:
