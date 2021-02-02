@@ -3,22 +3,27 @@ import pandas as pd
 
 eid_df = pd.DataFrame()
 
+def fmtcols(mylist, cols):
+    lines = ("\t | \t".join(mylist[i:i+cols]) for i in range(0,len(mylist),cols))
+    return '\n\n'.join(lines)
+
 
 def from_eid(eid):
     corp_ftax = []
     market = set()
     for i in master_df.index:
         if master_df[3][i] == eid.upper():
-            corp_ftax.append(master_df[2][i])
-            market.add(master_df[4][i].strip())
+            a = str(master_df[2][i]) + ' - ' + master_df[4][i].strip()
+            corp_ftax.append(a)
+            # market.add(master_df[4][i].strip())
 
     if corp_ftax:
         sg.PopupScrolled(
-            f'Following corp/ftax combinations have EID: {eid.upper()}\n\n{corp_ftax}\n\n\nSupported Markets: {list(market)}', size=(100, 10))
+            f'Following corp/ftax combinations have EID: {eid.upper()}\n', fmtcols(corp_ftax, 5), size=(100, 20), title=f'{eid.upper()}')
 
     else:
         sg.Popup(
-            f'{eid.upper()} not available or invalid, please check and try again!')
+            f'{eid.upper()} not available or invalid, please check and try again!', title='Error')
 
 
 def get_corp_ftax(corp, id, df):
@@ -35,26 +40,26 @@ def get_corp_ftax(corp, id, df):
         if master_df[1][j] in corp:
             if master_df[5][j] == 'ALTICE ONE' and master_df[3][j] in offer_eid and master_df[6][j] == 'X':
                 corpftax_altice.add(
-                    str(master_df[2][j]) + '-' + master_df[4][j].strip() + '-' + master_df[3][j].strip())
+                    str(master_df[2][j]) + ' - ' + master_df[4][j].strip() + ' - ' + master_df[3][j].strip())
 
             if master_df[5][j] == 'ALTICE ONE' and master_df[3][j] in offer_eid and master_df[6][j] == 'Unmetered':
                 corpftax_altice_unltd.add(
-                    str(master_df[2][j]) + '-' + master_df[4][j].strip() + '-' + master_df[3][j].strip())
+                    str(master_df[2][j]) + ' - ' + master_df[4][j].strip() + ' - ' + master_df[3][j].strip())
 
             if master_df[5][j] == 'X' and master_df[3][j] in offer_eid and master_df[6][j] == 'X':
                 corpftax_legacy.add(
-                    str(master_df[2][j]) + '-' + master_df[4][j].strip() + '-' + master_df[3][j].strip())
+                    str(master_df[2][j]) + ' - ' + master_df[4][j].strip() + ' - ' + master_df[3][j].strip())
 
             if master_df[5][j] == 'X' and master_df[3][j] in offer_eid and master_df[6][j] == 'Unmetered':
                 corpftax_legacy_unltd.add(
-                    str(master_df[2][j]) + '-' + master_df[4][j].strip() + '-' + master_df[3][j].strip())
+                    str(master_df[2][j]) + ' - ' + master_df[4][j].strip() + ' - ' + master_df[3][j].strip())
 
     if corpftax_legacy or corpftax_altice or corpftax_altice_unltd or corpftax_legacy_unltd:
         sg.PopupScrolled(
-            f'Offer ID {id} available in following corp/ftax combinations \n\nAltice One - Unlimited Combinations\n\n{sorted(corpftax_altice_unltd)}\n\nAltice One - Limited Combinations\n\n{sorted(corpftax_altice)}\n\nLegacy - Unlimited Combinations\n\n{sorted(corpftax_legacy_unltd)}\n\nLegacy - Limited Combinations\n\n{sorted(corpftax_legacy)}', size=(100, 10))
+            f'Offer ID {id} available in following corp/ftax combinations \n\nAltice One - Unlimited Combinations\n', fmtcols(sorted(corpftax_altice_unltd), 4), '\nAltice One - Limited Combinations\n', fmtcols(sorted(corpftax_altice), 4), '\nLegacy - Unlimited Combinations\n', fmtcols(sorted(corpftax_legacy_unltd), 4), '\nLegacy - Limited Combinations\n', fmtcols(sorted(corpftax_legacy), 4), size=(100, 20), title=f'{id}')
     else:
         sg.Popup(
-            f'Offer {id} not available in {corp} or is invalid, please check offer ID or change corp and try again!')
+            f'Offer {id} not available in {corp} or is invalid!\n\nPlease check offer ID or change corp and try again!', title='Error')
 
 
 first_layout = [
