@@ -56,7 +56,7 @@ def get_corp_ftax(corp, id, df):
 
     if corpftax_legacy or corpftax_altice or corpftax_altice_unltd or corpftax_legacy_unltd:
         sg.PopupScrolled(
-            f'Offer ID {id} available in following corp/ftax combinations \n\nAltice One - Unlimited Combinations\n', fmtcols(sorted(corpftax_altice_unltd), 4), '\nAltice One - Limited Combinations\n', fmtcols(sorted(corpftax_altice), 4), '\nLegacy - Unlimited Combinations\n', fmtcols(sorted(corpftax_legacy_unltd), 4), '\nLegacy - Limited Combinations\n', fmtcols(sorted(corpftax_legacy), 4), size=(100, 20), title=f'{id}')
+            f'Offer ID {id} available in following corp/ftax combinations \n\nAltice One - Unlimited Combinations\n', fmtcols(sorted(corpftax_altice_unltd), 4), '\n\nAltice One - Limited Combinations\n', fmtcols(sorted(corpftax_altice), 4), '\n\nLegacy - Unlimited Combinations\n', fmtcols(sorted(corpftax_legacy_unltd), 4), '\n\nLegacy - Limited Combinations\n', fmtcols(sorted(corpftax_legacy), 4), size=(100, 20), title=f'{id}')
     else:
         sg.Popup(
             f'Offer {id} not available in {corp} or is invalid!\n\nPlease check offer ID or change corp and try again!', title='Error')
@@ -104,7 +104,7 @@ layout = [
 ]
 
 
-window = sg.Window('Corp Ftax Combination checker', layout, resizable=True)
+window = sg.Window('Corp Ftax Combination checker', layout, resizable=True, icon=r'main.ico')
 
 upload_flag = True
 while True:
