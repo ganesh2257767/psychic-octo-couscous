@@ -1,0 +1,50 @@
+{
+    "salesContext": {
+        "localeString": "en_US",
+        "salesChannel": "ISA"
+    },
+    "searchProductOfferingFilterInfo": {
+        "oolAvailable": true,
+        "ovAvailable": true,
+        "ioAvailable": true,
+        "includeExpiredOfferings": false,
+        "salesRuleContext": {
+            "customerProfile": {
+                "anonymous": true
+            },
+            "customerInfo": {
+                "customerType": "R",
+                "newCustomer": true,
+                "orderType": "Install",
+                "isPromotion": true,
+                "eligibilityID": ""
+            }
+        },
+        "eligibilityStatus": [
+            {
+                "code": "EA"
+            }
+        ]
+    },
+    "offeringReadMask": {
+        "value": "SUMMARY"
+    },
+    "checkCustomerProductOffering": false,
+    "locale": "en_US",
+    "cartId": "LO14CJVB",
+    "serviceAddress": {
+        "apt": "",
+        "fta": "1",
+        "street": "1155 DEER PARK AVE",
+        "city": "NORTH BABYLON",
+        "state": "NY",
+        "zipcode": "11703",
+        "type": "",
+        "clusterCode": "86",
+        "mkt": "K",
+        "corp": "7801",
+        "house": "16191",
+        "cust": "1"
+    },
+    "generics": false
+}

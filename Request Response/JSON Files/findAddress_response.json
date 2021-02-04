@@ -1,0 +1,33 @@
+{
+    "sessionId": "JNWPCND3SDKNFECJMEL",
+    "success": true,
+    "errorCode": 200,
+    "errorMessage": "200",
+    "detailedAccounts": [
+        {
+            "id": 0,
+            "clust": "86",
+            "corp": "7801",
+            "carea": "A",
+            "ftax": "1",
+            "hfstatus": "3",
+            "house": "16191",
+            "cust": "1",
+            "mkt": "K",
+            "service_city": "NORTH BABYLON",
+            "service_housenbr": "1155",
+            "service_state": "NY",
+            "service_zipcode": "11703",
+            "servicestreetaddr": "1155 DEER PARK AVE",
+            "eligibilityIdList": []
+        }
+    ],
+    "areaDetails": {
+        "id": 0,
+        "clust": "86",
+        "corp": "7801",
+        "ftax": "1",
+        "mkt": "M",
+        "eligibilityIdList": []
+    }
+}

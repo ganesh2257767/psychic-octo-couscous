@@ -1,0 +1,874 @@
+{
+    "searchProductOfferingReturn": {
+        "productOfferingResults": [
+            {
+                "matchingProductOffering": {
+                    "ID": "1892681",
+                    "title": "Optimum 1 Gig",
+                    "description": "Fastest speed available^Up to 940 Mbps download^Primed for handling the heaviest network usage activities",
+                    "defaultPrice": "86:50.00:mo:1 yr",
+                    "startingPrice": "50.00",
+                    "priceFrequency": "mo",
+                    "priceDuration": "1 yr",
+                    "offerAttribute": "SELF INSTALL",
+                    "productOfferingProductSpecs": [
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "5881",
+                                    "name": "OOL",
+                                    "description": "OOL product"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "matchingProductOffering": {
+                    "ID": "1900221",
+                    "title": "Optimum 1 Gig Core TV and Phone_Gateway",
+                    "description": "Up to 940 Mbps download^Smart WiFi with intelligent coverage^FREE WiFi extender to expand range of coverage^Voice-Activated Remote^4K Ultra HD^Unlimited Calling",
+                    "defaultPrice": "86:85.00:mo:1 yr",
+                    "startingPrice": "85.00",
+                    "priceFrequency": "mo",
+                    "priceDuration": "1 yr",
+                    "productOfferingProductSpecs": [
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "5881",
+                                    "name": "OOL",
+                                    "description": "OOL product"
+                                }
+                            ]
+                        },
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "4831",
+                                    "name": "iO",
+                                    "description": "iO TV product"
+                                }
+                            ]
+                        },
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "6111",
+                                    "name": "OV",
+                                    "description": "OV product"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "matchingProductOffering": {
+                    "ID": "1897831",
+                    "title": "Optimum 1 Gig Premier TV and Phone_Gateway",
+                    "description": "FREE Cloud DVR^Up to 940 Mbps download^Smart WiFi with intelligent coverage^FREE WiFi extender to expand range of coverage^Voice-Activated Remote^4K Ultra HD^Unlimited Calling",
+                    "defaultPrice": "86:120.00:mo:1 yr",
+                    "startingPrice": "120.00",
+                    "priceFrequency": "mo",
+                    "priceDuration": "1 yr",
+                    "productOfferingProductSpecs": [
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "6111",
+                                    "name": "OV",
+                                    "description": "OV product"
+                                }
+                            ]
+                        },
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "4831",
+                                    "name": "iO",
+                                    "description": "iO TV product"
+                                }
+                            ]
+                        },
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "5881",
+                                    "name": "OOL",
+                                    "description": "OOL product"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "matchingProductOffering": {
+                    "ID": "1895421",
+                    "title": "Optimum 1 Gig Select TV and Phone_Gateway",
+                    "description": "Up to 940 Mbps download^Smart WiFi with intelligent coverage^FREE WiFi extender to expand range of coverage^Unlimited home phone service",
+                    "defaultPrice": "86:100.00:mo:1 yr",
+                    "startingPrice": "100.00",
+                    "priceFrequency": "mo",
+                    "priceDuration": "1 yr",
+                    "productOfferingProductSpecs": [
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "6111",
+                                    "name": "OV",
+                                    "description": "OV product"
+                                }
+                            ]
+                        },
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "4831",
+                                    "name": "iO",
+                                    "description": "iO TV product"
+                                }
+                            ]
+                        },
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "5881",
+                                    "name": "OOL",
+                                    "description": "OOL product"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "matchingProductOffering": {
+                    "ID": "2136401",
+                    "title": "Optimum 1 Gig and Core TV_Gateway",
+                    "description": "Next generation technology^Up to 940 Mbps download^Smart WiFi with intelligent coverage^FREE WiFi extender to expand range of coverage^Voice-Activated Remote^4K Ultra HD",
+                    "defaultPrice": "86:75.00:mo:1 yr",
+                    "startingPrice": "75.00",
+                    "priceFrequency": "mo",
+                    "priceDuration": "1 yr",
+                    "productOfferingProductSpecs": [
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "5881",
+                                    "name": "OOL",
+                                    "description": "OOL product"
+                                }
+                            ]
+                        },
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "4831",
+                                    "name": "iO",
+                                    "description": "iO TV product"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "matchingProductOffering": {
+                    "ID": "1893241",
+                    "title": "Optimum 1 Gig and Phone",
+                    "description": "Fastest speed available^Up to 940 Mbps download^Primed for handling the heaviest network usage activities^Unlimited home phone service",
+                    "defaultPrice": "86:60.00:mo:1 yr",
+                    "startingPrice": "60.00",
+                    "priceFrequency": "mo",
+                    "priceDuration": "1 yr",
+                    "offerAttribute": "SELF INSTALL",
+                    "productOfferingProductSpecs": [
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "6111",
+                                    "name": "OV",
+                                    "description": "OV product"
+                                }
+                            ]
+                        },
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "5881",
+                                    "name": "OOL",
+                                    "description": "OOL product"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "matchingProductOffering": {
+                    "ID": "2137651",
+                    "title": "Optimum 1 Gig and Premier TV_Gateway",
+                    "description": "FREE Cloud DVR^Next generation technology^Up to 940 Mbps download^Smart WiFi with intelligent coverage^FREE WiFi extender to expand range of coverage^Voice-Activated Remote^4K Ultra HD",
+                    "defaultPrice": "86:110.00:mo:1 yr",
+                    "startingPrice": "110.00",
+                    "priceFrequency": "mo",
+                    "priceDuration": "1 yr",
+                    "productOfferingProductSpecs": [
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "5881",
+                                    "name": "OOL",
+                                    "description": "OOL product"
+                                }
+                            ]
+                        },
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "4831",
+                                    "name": "iO",
+                                    "description": "iO TV product"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "matchingProductOffering": {
+                    "ID": "2138881",
+                    "title": "Optimum 1 Gig and Select TV_Gateway",
+                    "description": "Next generation technology^Up to 940 Mbps download^Smart WiFi with intelligent coverage^FREE WiFi extender to expand range of coverage^Voice-Activated Remote^4K Ultra HD",
+                    "defaultPrice": "86:90.00:mo:1 yr",
+                    "startingPrice": "90.00",
+                    "priceFrequency": "mo",
+                    "priceDuration": "1 yr",
+                    "productOfferingProductSpecs": [
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "4831",
+                                    "name": "iO",
+                                    "description": "iO TV product"
+                                }
+                            ]
+                        },
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "5881",
+                                    "name": "OOL",
+                                    "description": "OOL product"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "matchingProductOffering": {
+                    "ID": "586451",
+                    "title": "Optimum 300",
+                    "description": "Enough speed to power all your devices at once^Up to 300 Mbps download",
+                    "defaultPrice": "86:40.00:mo:1 yr",
+                    "startingPrice": "40.00",
+                    "priceFrequency": "mo",
+                    "priceDuration": "1 yr",
+                    "productOfferingProductSpecs": [
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "5881",
+                                    "name": "OOL",
+                                    "description": "OOL product"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "matchingProductOffering": {
+                    "ID": "575091",
+                    "title": "Optimum Internet 300, Core TV and Phone_Altice One",
+                    "description": "Up to 300 Mbps download^Smart WiFi with intelligent coverage^Voice-Activated Remote^4K Ultra HD^Unlimited Calling",
+                    "defaultPrice": "86:75.00:mo:1 yr",
+                    "startingPrice": "75.00",
+                    "priceFrequency": "mo",
+                    "priceDuration": "1 yr",
+                    "productOfferingProductSpecs": [
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "6111",
+                                    "name": "OV",
+                                    "description": "OV product"
+                                }
+                            ]
+                        },
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "4831",
+                                    "name": "iO",
+                                    "description": "iO TV product"
+                                }
+                            ]
+                        },
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "5881",
+                                    "name": "OOL",
+                                    "description": "OOL product"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "matchingProductOffering": {
+                    "ID": "573661",
+                    "title": "Optimum Internet 300, Premier TV and Phone_Altice One",
+                    "description": "Up to 300 Mbps download^Smart WiFi with intelligent coverage^Voice-Activated Remote^4K Ultra HD^Unlimited Calling",
+                    "defaultPrice": "86:110.00:mo:1 yr",
+                    "startingPrice": "110.00",
+                    "priceFrequency": "mo",
+                    "priceDuration": "1 yr",
+                    "productOfferingProductSpecs": [
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "4831",
+                                    "name": "iO",
+                                    "description": "iO TV product"
+                                }
+                            ]
+                        },
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "5881",
+                                    "name": "OOL",
+                                    "description": "OOL product"
+                                }
+                            ]
+                        },
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "6111",
+                                    "name": "OV",
+                                    "description": "OV product"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "matchingProductOffering": {
+                    "ID": "571591",
+                    "title": "Optimum Internet 300, Select TV and Phone_Altice One",
+                    "description": "Up to 300 Mbps download^Smart WiFi with intelligent coverage^Voice-Activated Remote^4K Ultra HD^Unlimited Calling",
+                    "defaultPrice": "86:90.00:mo:1 yr",
+                    "startingPrice": "90.00",
+                    "priceFrequency": "mo",
+                    "priceDuration": "1 yr",
+                    "productOfferingProductSpecs": [
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "6111",
+                                    "name": "OV",
+                                    "description": "OV product"
+                                }
+                            ]
+                        },
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "5881",
+                                    "name": "OOL",
+                                    "description": "OOL product"
+                                }
+                            ]
+                        },
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "4831",
+                                    "name": "iO",
+                                    "description": "iO TV product"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "matchingProductOffering": {
+                    "ID": "2141251",
+                    "title": "Optimum Internet 300 and Core TV_Altice One",
+                    "description": "Up to 300 Mbps download^Smart WiFi with intelligent coverage^Voice-Activated Remote^4K Ultra HD",
+                    "defaultPrice": "86:65.00:mo:1 yr",
+                    "startingPrice": "65.00",
+                    "priceFrequency": "mo",
+                    "priceDuration": "1 yr",
+                    "productOfferingProductSpecs": [
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "4831",
+                                    "name": "iO",
+                                    "description": "iO TV product"
+                                }
+                            ]
+                        },
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "5881",
+                                    "name": "OOL",
+                                    "description": "OOL product"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "matchingProductOffering": {
+                    "ID": "579801",
+                    "title": "Optimum 300 and Phone",
+                    "description": "Enough speed to power all your devices at once^Up to 300 Mbps download^Unlimited  calling",
+                    "defaultPrice": "86:50.00:mo:1 yr",
+                    "startingPrice": "50.00",
+                    "priceFrequency": "mo",
+                    "priceDuration": "1 yr",
+                    "productOfferingProductSpecs": [
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "6111",
+                                    "name": "OV",
+                                    "description": "OV product"
+                                }
+                            ]
+                        },
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "5881",
+                                    "name": "OOL",
+                                    "description": "OOL product"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "matchingProductOffering": {
+                    "ID": "2143701",
+                    "title": "Optimum Internet 300 and Premier TV_Altice One",
+                    "description": "Up to 300 Mbps download^Smart WiFi with intelligent coverage^Voice-Activated Remote^4K Ultra HD",
+                    "defaultPrice": "86:100.00:mo:1 yr",
+                    "startingPrice": "100.00",
+                    "priceFrequency": "mo",
+                    "priceDuration": "1 yr",
+                    "productOfferingProductSpecs": [
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "5881",
+                                    "name": "OOL",
+                                    "description": "OOL product"
+                                }
+                            ]
+                        },
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "4831",
+                                    "name": "iO",
+                                    "description": "iO TV product"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "matchingProductOffering": {
+                    "ID": "2146111",
+                    "title": "Optimum Internet 300 and Select TV_Altice One",
+                    "description": "Up to 300 Mbps download^Smart WiFi with intelligent coverage^Voice-Activated Remote^4K Ultra HD",
+                    "defaultPrice": "86:80.00:mo:1 yr",
+                    "startingPrice": "80.00",
+                    "priceFrequency": "mo",
+                    "priceDuration": "1 yr",
+                    "productOfferingProductSpecs": [
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "4831",
+                                    "name": "iO",
+                                    "description": "iO TV product"
+                                }
+                            ]
+                        },
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "5881",
+                                    "name": "OOL",
+                                    "description": "OOL product"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "matchingProductOffering": {
+                    "ID": "1971901",
+                    "title": "Optimum 500",
+                    "description": "Ideal for multi-device streaming and game play^Up to 500 Mbps download",
+                    "defaultPrice": "86:45.00:mo:1 yr",
+                    "startingPrice": "45.00",
+                    "priceFrequency": "mo",
+                    "priceDuration": "1 yr",
+                    "productOfferingProductSpecs": [
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "5881",
+                                    "name": "OOL",
+                                    "description": "OOL product"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "matchingProductOffering": {
+                    "ID": "1956651",
+                    "title": "Optimum Internet 500, Core TV and Phone_Altice One",
+                    "description": "Up to 500 Mbps download^Smart WiFi with intelligent coverage^Voice-Activated Remote^4K Ultra HD^Unlimited Calling",
+                    "defaultPrice": "86:80.00:mo:1 yr",
+                    "startingPrice": "80.00",
+                    "priceFrequency": "mo",
+                    "priceDuration": "1 yr",
+                    "productOfferingProductSpecs": [
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "5881",
+                                    "name": "OOL",
+                                    "description": "OOL product"
+                                }
+                            ]
+                        },
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "6111",
+                                    "name": "OV",
+                                    "description": "OV product"
+                                }
+                            ]
+                        },
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "4831",
+                                    "name": "iO",
+                                    "description": "iO TV product"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "matchingProductOffering": {
+                    "ID": "1957921",
+                    "title": "Optimum Internet 500, Premier TV and Phone_Altice One",
+                    "description": "Up to 500 Mbps download^Smart WiFi with intelligent coverage^Voice-Activated Remote^4K Ultra HD^Unlimited Calling",
+                    "defaultPrice": "86:115.00:mo:1 yr",
+                    "startingPrice": "115.00",
+                    "priceFrequency": "mo",
+                    "priceDuration": "1 yr",
+                    "productOfferingProductSpecs": [
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "4831",
+                                    "name": "iO",
+                                    "description": "iO TV product"
+                                }
+                            ]
+                        },
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "6111",
+                                    "name": "OV",
+                                    "description": "OV product"
+                                }
+                            ]
+                        },
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "5881",
+                                    "name": "OOL",
+                                    "description": "OOL product"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "matchingProductOffering": {
+                    "ID": "1959171",
+                    "title": "Optimum Internet 500, Select TV and Phone_Altice One",
+                    "description": "Up to 500 Mbps download^Smart WiFi with intelligent coverage^Voice-Activated Remote^4K Ultra HD^Unlimited Calling",
+                    "defaultPrice": "86:95.00:mo:1 yr",
+                    "startingPrice": "95.00",
+                    "priceFrequency": "mo",
+                    "priceDuration": "1 yr",
+                    "productOfferingProductSpecs": [
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "6111",
+                                    "name": "OV",
+                                    "description": "OV product"
+                                }
+                            ]
+                        },
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "5881",
+                                    "name": "OOL",
+                                    "description": "OOL product"
+                                }
+                            ]
+                        },
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "4831",
+                                    "name": "iO",
+                                    "description": "iO TV product"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "matchingProductOffering": {
+                    "ID": "2147331",
+                    "title": "Optimum Internet 500 and Core TV_Altice One",
+                    "description": "Next generation technology^Up to 500 Mbps download^Smart WiFi with intelligent coverage^Voice-Activated Remote^4K Ultra HD",
+                    "defaultPrice": "86:70.00:mo:1 yr",
+                    "startingPrice": "70.00",
+                    "priceFrequency": "mo",
+                    "priceDuration": "1 yr",
+                    "productOfferingProductSpecs": [
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "4831",
+                                    "name": "iO",
+                                    "description": "iO TV product"
+                                }
+                            ]
+                        },
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "5881",
+                                    "name": "OOL",
+                                    "description": "OOL product"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "matchingProductOffering": {
+                    "ID": "1970811",
+                    "title": "Optimum 500 and Phone",
+                    "description": "Ideal for multi-device streaming and game play^Up to 500 Mbps download^Unlimited home phone service",
+                    "defaultPrice": "86:55.00:mo:1 yr",
+                    "startingPrice": "55.00",
+                    "priceFrequency": "mo",
+                    "priceDuration": "1 yr",
+                    "productOfferingProductSpecs": [
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "5881",
+                                    "name": "OOL",
+                                    "description": "OOL product"
+                                }
+                            ]
+                        },
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "6111",
+                                    "name": "OV",
+                                    "description": "OV product"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "matchingProductOffering": {
+                    "ID": "2148591",
+                    "title": "Optimum Internet 500 and Premier TV_Altice One",
+                    "description": "Next generation technology^Up to 500 Mbps download^Smart WiFi with intelligent coverage^Voice-Activated Remote^4K Ultra HD",
+                    "defaultPrice": "86:105.00:mo:1 yr",
+                    "startingPrice": "105.00",
+                    "priceFrequency": "mo",
+                    "priceDuration": "1 yr",
+                    "productOfferingProductSpecs": [
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "4831",
+                                    "name": "iO",
+                                    "description": "iO TV product"
+                                }
+                            ]
+                        },
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "5881",
+                                    "name": "OOL",
+                                    "description": "OOL product"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "matchingProductOffering": {
+                    "ID": "2149831",
+                    "title": "Optimum Internet 500 and Select TV_Altice One",
+                    "description": "Next generation technology^Up to 500 Mbps download^Smart WiFi with intelligent coverage^Voice-Activated Remote^4K Ultra HD",
+                    "defaultPrice": "86:85.00:mo:1 yr",
+                    "startingPrice": "85.00",
+                    "priceFrequency": "mo",
+                    "priceDuration": "1 yr",
+                    "productOfferingProductSpecs": [
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "5881",
+                                    "name": "OOL",
+                                    "description": "OOL product"
+                                }
+                            ]
+                        },
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "4831",
+                                    "name": "iO",
+                                    "description": "iO TV product"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "matchingProductOffering": {
+                    "ID": "560091",
+                    "title": "Core TV",
+                    "description": "Enjoy over 210 channels, with over 60 in HD^AMC, HGTV, ESPN and more!^Local channels included",
+                    "defaultPrice": "A:79.99:mo:",
+                    "startingPrice": "79.99",
+                    "priceFrequency": "mo",
+                    "productOfferingProductSpecs": [
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "4831",
+                                    "name": "iO",
+                                    "description": "iO TV product"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "matchingProductOffering": {
+                    "ID": "562051",
+                    "title": "Premier TV",
+                    "description": "Enjoy over 420 channels, with over 140 in HD^NFL Redzone, HBO, Starz, and more!^Most robust package^Local channels included",
+                    "defaultPrice": "A:129.99:mo:",
+                    "startingPrice": "129.99",
+                    "priceFrequency": "mo",
+                    "productOfferingProductSpecs": [
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "4831",
+                                    "name": "iO",
+                                    "description": "iO TV product"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "matchingProductOffering": {
+                    "ID": "561581",
+                    "title": "Select TV",
+                    "description": "Enjoy over 335 channels, with over 110 in HD^Disney XD, DIY, StarzEncore and more!^Local channels included",
+                    "defaultPrice": "A:94.99:mo:",
+                    "startingPrice": "94.99",
+                    "priceFrequency": "mo",
+                    "productOfferingProductSpecs": [
+                        {
+                            "productSpecs": [
+                                {
+                                    "ID": "4831",
+                                    "name": "iO",
+                                    "description": "iO TV product"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        ],
+        "responseInfo": {
+            "statusCode": "0000000000",
+            "statusDesc": "Missing responseInfo from SE",
+            "statusType": "Missing responseInfo from SE"
+        }
+    }
+}

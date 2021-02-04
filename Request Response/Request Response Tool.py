@@ -103,9 +103,11 @@ while True:
 
                     with open('createShoppingCart_response.json', 'w+', encoding='utf-8') as csc_res:
                         csc_res.write(json.dumps(createShoppingCart_response, indent=4))
-
-                    cartID = createShoppingCart_response["createShoppingCartRESTReturn"]["cartId"]
-
+                    try:
+                        cartID = createShoppingCart_response["createShoppingCartRESTReturn"]["cartId"]
+                    except:
+                        cartID = ''
+                        sg.PopupError("Cart ID creation ran into trouble!\n\nDelete previous cart on this address or check for evironment issues.")
                     url_prdOff = url1 + env + url_searchProductOffering
 
                     searchProductOffering_payload = f'''{{"salesContext":{{"localeString":"en_US","salesChannel":"{channel}"}},"searchProductOfferingFilterInfo":{{"oolAvailable":true,"ovAvailable":true,"ioAvailable":true,"includeExpiredOfferings":false,"salesRuleContext":{{"customerProfile":{{"anonymous":true}},"customerInfo":{{"customerType":"R","newCustomer":true,"orderType":"Install","isPromotion":{promo},"eligibilityID":"{eid}"}}}},"eligibilityStatus":[{{"code":"EA"}}]}},"offeringReadMask":{{"value":"SUMMARY"}},"checkCustomerProductOffering":false,"locale":"en_US","cartId":"{cartID}","serviceAddress":{{"apt":"{apt}","fta":"{ftax}","street":"{street}","city":"{city}","state":"{state}","zipcode":"{zip}","type":"","clusterCode":"{cluster}","mkt":"{market}","corp":"{corp}","house":"{house}","cust":"{cust}"}},"generics":false}}'''
