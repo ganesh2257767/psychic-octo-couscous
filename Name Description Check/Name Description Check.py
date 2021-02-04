@@ -1,9 +1,10 @@
 import PySimpleGUI as sg
-from PySimpleGUI.PySimpleGUI import Column
 import requests
 import json
 import pandas as pd
 import os
+
+icon_path = os.getcwd()
 
 uow_uat1 = 'https://ws-uat.suddenlink.com/uat1/optimum-online-order-ws/rest/OfferService/getBundles'
 uow_uat = 'https://ws-uat.suddenlink.com/optimum-online-order-ws/rest/OfferService/getBundles'
@@ -85,7 +86,7 @@ main_layout = [
     sg.Column(layout, visible=False, key='-COL2-')]
 ]
 
-window = sg.Window('Offer Name/Description Checker', main_layout)
+window = sg.Window('Offer Name/Description Checker', main_layout, icon=icon_path+'\\main_icon.ico')
 
 
 while True:
