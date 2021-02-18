@@ -104,31 +104,36 @@ while True:
                     with open('createShoppingCart_response.json', 'w+', encoding='utf-8') as csc_res:
                         csc_res.write(json.dumps(createShoppingCart_response, indent=4))
                     try:
+                        response_info = createShoppingCart_response["createShoppingCartRESTReturn"]["responseInfo"]["statusCode"]
                         cartID = createShoppingCart_response["createShoppingCartRESTReturn"]["cartId"]
                     except:
                         cartID = ''
-                        sg.PopupError("Cart ID creation ran into trouble!\n\nDelete previous cart on this address or check for evironment issues.")
-                    url_prdOff = url1 + env + url_searchProductOffering
+                        sg.Popup("Cart ID creation ran into trouble!\n\nCheck Create Shopping Cart Response for possible issue.", title="Error")
+                    else:
+                        if response_info == "1002000013":
+                            sg.Popup("Another cart submitted on this address.\nClean the cart and try again.")
+                        else:
+                            url_prdOff = url1 + env + url_searchProductOffering
 
-                    searchProductOffering_payload = f'''{{"salesContext":{{"localeString":"en_US","salesChannel":"{channel}"}},"searchProductOfferingFilterInfo":{{"oolAvailable":true,"ovAvailable":true,"ioAvailable":true,"includeExpiredOfferings":false,"salesRuleContext":{{"customerProfile":{{"anonymous":true}},"customerInfo":{{"customerType":"R","newCustomer":true,"orderType":"Install","isPromotion":{promo},"eligibilityID":"{eid}"}}}},"eligibilityStatus":[{{"code":"EA"}}]}},"offeringReadMask":{{"value":"SUMMARY"}},"checkCustomerProductOffering":false,"locale":"en_US","cartId":"{cartID}","serviceAddress":{{"apt":"{apt}","fta":"{ftax}","street":"{street}","city":"{city}","state":"{state}","zipcode":"{zip}","type":"","clusterCode":"{cluster}","mkt":"{market}","corp":"{corp}","house":"{house}","cust":"{cust}"}},"generics":false}}'''
-                    searchProductOffering_request = json.loads(searchProductOffering_payload)
-                    
-                    searchProductOffering_response = requests.post(url_prdOff, json=searchProductOffering_request, verify=False).json()
-                    offers = searchProductOffering_response["searchProductOfferingReturn"]["productOfferingResults"]
+                            searchProductOffering_payload = f'''{{"salesContext":{{"localeString":"en_US","salesChannel":"{channel}"}},"searchProductOfferingFilterInfo":{{"oolAvailable":true,"ovAvailable":true,"ioAvailable":true,"includeExpiredOfferings":false,"salesRuleContext":{{"customerProfile":{{"anonymous":true}},"customerInfo":{{"customerType":"R","newCustomer":true,"orderType":"Install","isPromotion":{promo},"eligibilityID":"{eid}"}}}},"eligibilityStatus":[{{"code":"EA"}}]}},"offeringReadMask":{{"value":"SUMMARY"}},"checkCustomerProductOffering":false,"locale":"en_US","cartId":"{cartID}","serviceAddress":{{"apt":"{apt}","fta":"{ftax}","street":"{street}","city":"{city}","state":"{state}","zipcode":"{zip}","type":"","clusterCode":"{cluster}","mkt":"{market}","corp":"{corp}","house":"{house}","cust":"{cust}"}},"generics":false}}'''
+                            searchProductOffering_request = json.loads(searchProductOffering_payload)
+                            
+                            searchProductOffering_response = requests.post(url_prdOff, json=searchProductOffering_request, verify=False).json()
+                            offers = searchProductOffering_response["searchProductOfferingReturn"]["productOfferingResults"]
 
-                    for x in offers:
-                        offer_list.append(x["matchingProductOffering"]["ID"] + '-' + x["matchingProductOffering"]["title"])
+                            for x in offers:
+                                offer_list.append(x["matchingProductOffering"]["ID"] + '-' + x["matchingProductOffering"]["title"])
 
-                    with open('searchProductOffering_request.json', 'w+', encoding='utf-8') as spo_req:
-                        spo_req.write(json.dumps(searchProductOffering_request, indent=4))
+                            with open('searchProductOffering_request.json', 'w+', encoding='utf-8') as spo_req:
+                                spo_req.write(json.dumps(searchProductOffering_request, indent=4))
 
-                    with open('searchProductOffering_response.json', 'w+', encoding='utf-8') as spo_res:
-                        spo_res.write(json.dumps(searchProductOffering_response, indent=4))
+                            with open('searchProductOffering_response.json', 'w+', encoding='utf-8') as spo_res:
+                                spo_res.write(json.dumps(searchProductOffering_response, indent=4))
 
-                    prompt = sg.PopupOK('Done, request response files created.', title='Success')
-                
-                    window['-UPDATECART-'].update(disabled=False)
-                    window['offerID'].update(values = offer_list)
+                            prompt = sg.PopupOK('Done, request response files created.', title='Success')
+                        
+                            window['-UPDATECART-'].update(disabled=False)
+                            window['offerID'].update(values = offer_list)
 
     if event in ('-FOLD-', '-FOLD1-'):
         os.startfile(path)
