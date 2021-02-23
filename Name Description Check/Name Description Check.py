@@ -50,9 +50,13 @@ def check(url, req, chann, data):
             data["Actual Name"] = actual_name
             data["Actual Description"] = actual_description
             data["Result"] = result
-
+            pass_data = data[data.Result == 'Pass']
+            fail_data = data[data.Result == 'Fail']
+            new_input = data[((data.Result == 'Fail') | (data.Result == 'NA'))]
             try:
-                data.to_excel(out_path + '/output.xlsx', index=False)
+                pass_data.to_csv(out_path + '/output_pass.csv', mode='a', index=False)
+                fail_data.to_csv(out_path + '/output_fail.csv', mode='a', index=False)
+                new_input.to_excel(out_path + '/next_input.xlsx', index=False)
             except:
                 sg.Popup("File already open or present in a folder without permissions!")
             else:
@@ -78,7 +82,7 @@ layout = [
     [sg.Text("Select Cluster", size = (15, 1)), sg.DropDown(values = cluster, key='cluster', visible=False, size=(6, 1))],
     [sg.Text("Enter FTAX", size = (15, 1)), sg.InputText(key='ftax', visible=False, size=(8, 1))],
     [sg.Text("Enter EID", size = (15, 1)), sg.InputText(key='eid', visible=False, size=(8, 1))],
-    [sg.Button('Upload another file', key='-ANOTHER-'), sg.Submit("Check", key='-SUBMIT-',  size=(10, 1)), sg.Button('Open output file', key='-OPEN-', disabled=True)]
+    [sg.Button('Upload another file', key='-ANOTHER-'), sg.Submit("Check", key='-SUBMIT-',  size=(10, 1)), sg.Button('Open output folder', key='-OPEN-', disabled=True)]
 ]
 
 main_layout = [
@@ -99,9 +103,13 @@ while True:
         if values['file']:
             path = values['file']
             out_path = '/'.join(values['file'].split('/')[:-1])
-            data = pd.read_excel(path, usecols = [0, 1, 2], names = ["Offer ID", "Offer Name", "Offer Description"], dtype=str)
-            window['-COL1-'].update(visible=False)
-            window['-COL2-'].update(visible=True)
+            try:
+                data = pd.read_excel(path, usecols = [0, 1, 2], names = ["Offer ID", "Offer Name", "Offer Description"], dtype=str)
+            except:
+                sg.Popup('Please select an excel file!')
+            else:
+                window['-COL1-'].update(visible=False)
+                window['-COL2-'].update(visible=True)
         else:
             sg.Popup('Please select an input file!')
     
@@ -128,7 +136,6 @@ while True:
         window['eid'].update(visible=False)
 
     if event == '-SUBMIT-':
-        # if all([values['market'], values['corp'], values['cluster'], values['ftax'], values['eid']]):
         if values['sdl'] and values['uow']:
             if all([values['market'], values['corp'], values['cluster'], values['ftax']]):
                 if values['uat']:
@@ -179,7 +186,7 @@ while True:
 
 
     if event == '-OPEN-':
-        os.startfile(out_path + '/output.xlsx')
+        os.startfile(out_path)
 
     if event == '-ANOTHER-':
         window['-COL2-'].update(visible=False)

@@ -1,0 +1,34 @@
+{
+    "sessionId": "1AF6IMF2JA2B9MJKSU6",
+    "success": true,
+    "errorCode": 200,
+    "errorMessage": "200",
+    "detailedAccounts": [
+        {
+            "id": 0,
+            "clust": "86",
+            "corp": "7801",
+            "carea": "A",
+            "ftax": "1",
+            "hfstatus": "3",
+            "house": "10722",
+            "cust": "1",
+            "mkt": "K",
+            "service_city": "COPIAGUE",
+            "service_housenbr": "1550",
+            "service_state": "NY",
+            "service_zipcode": "11726",
+            "servicestreetaddr": "1550 SUNRISE HWY",
+            "eligibilityIdList": [],
+            "disconnectedDate": "2020-02-16T18:36:11-06:00"
+        }
+    ],
+    "areaDetails": {
+        "id": 0,
+        "clust": "86",
+        "corp": "7801",
+        "ftax": "1",
+        "mkt": "M",
+        "eligibilityIdList": []
+    }
+}
