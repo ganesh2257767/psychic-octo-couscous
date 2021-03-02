@@ -117,10 +117,7 @@ while True:
         window['market'].update(values=sdl_markets)
         window['cluster'].update(visible=True)
         window['ftax'].update(visible=True)
-        if values['dsa']:
-            window['eid'].update(visible=True)
-        else:
-            window['eid'].update(visible=False)
+        window['eid'].update(visible=True)
 
     if event == 'opt':
         window['market'].update(values=opt_markets)
@@ -128,21 +125,15 @@ while True:
         window['ftax'].update(visible=False)
         window['eid'].update(visible=False)
 
-    if event == 'dsa':
-        if values['sdl']:
-            window['eid'].update(visible=True)
-
-    if event == 'uow':
-        window['eid'].update(visible=False)
 
     if event == '-SUBMIT-':
         if values['sdl'] and values['uow']:
-            if all([values['market'], values['corp'], values['cluster'], values['ftax']]):
+            if all([values['market'], values['corp'], values['cluster'], values['ftax'], values['eid']]):
                 if values['uat']:
                     url = uow_uat
                 else:
                     url = uow_uat1
-                payload = f'''{{"productOfferingsRequest":{{"customerInteractionId":"1228012","accountDetails":{{"clust":"{values['cluster']}","corp":"{values['corp']}","cust":"1","eligibilityId": "test","ftax":"{values['ftax']}","hfstatus":"3","house":"test","id":0,"mkt":"{values['market']}","service_housenbr":"test","servicestreetaddr":"test","service_aptn": "test","service_city":"test","service_state":"test","service_zipcode":"test","tdrop": "O"}},"newCustomer":true,"sessionId":"LDPDPJCBBH08VVL9KKY","shoppingCartId":"FTJXQYDN","footprint": "suddenlink"}}}}'''
+                payload = f'''{{"productOfferingsRequest":{{"customerInteractionId":"1228012","eligibilityID": "{values['eid']}","accountDetails":{{"clust":"{values['cluster']}","corp":"{values['corp']}","cust":"1","eligibilityId": "test","ftax":"{values['ftax']}","hfstatus":"3","house":"test","id":0,"mkt":"{values['market']}","service_housenbr":"test","servicestreetaddr":"test","service_aptn": "test","service_city":"test","service_state":"test","service_zipcode":"test","tdrop": "O"}},"newCustomer":true,"sessionId":"LDPDPJCBBH08VVL9KKY","shoppingCartId":"FTJXQYDN","footprint": "suddenlink"}}}}'''
                 req = json.loads(payload)
                 check(url, req, 'uow', data)
             else:
