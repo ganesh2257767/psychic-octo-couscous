@@ -28,27 +28,33 @@ def check(url, req, chann, data):
             offer_id = str(offer["matchingProductOffering"]["ID"])
             offer_name = offer["matchingProductOffering"]["title"]
             offer_desc = offer["matchingProductOffering"]["description"]
+            offer_price = str(offer["matchingProductOffering"]["startingPrice"])
 
-            offer_name_desc[offer_id] = [offer_name, offer_desc]
+            offer_name_desc[offer_id] = [offer_name, offer_desc, offer_price]
         else:
             actual_name = []
             actual_description = []
+            actual_price = []
             result = []
-            for oid, name, descr in zip(data['Offer ID'], data['Offer Name'], data['Offer Description']):
+            for oid, name, descr, price in zip(data['Offer ID'], data['Offer Name'], data['Offer Description'], data['Offer Price']):
                 if oid in offer_name_desc.keys():
                     actual_name.append(offer_name_desc[oid][0])
                     actual_description.append(offer_name_desc[oid][1])
-                    if descr.strip() == offer_name_desc[oid][1] and name.strip() == offer_name_desc[oid][0]:
+                    actual_price.append(offer_name_desc[oid][2])
+                    
+                    if descr.strip() == offer_name_desc[oid][1] and name.strip() == offer_name_desc[oid][0] and f'{float(price):.2f}' == offer_name_desc[oid][2]:
                         result.append('Pass')
                     else:
                         result.append('Fail')
                 else:
                     actual_name.append("Not found")
                     actual_description.append("Not found")
+                    actual_price.append("Not found")
                     result.append('NA')
 
             data["Actual Name"] = actual_name
             data["Actual Description"] = actual_description
+            data["Actual Price"] = actual_price
             data["Result"] = result
             pass_data = data[data.Result == 'Pass']
             fail_data = data[data.Result == 'Fail']
@@ -69,7 +75,14 @@ sdl_markets = ['A', 'B', 'I', 'J', 'K', 'M', 'N', 'O', 'P', 'Q', 'V']
 cluster = [10, 21, 90, 91, 93, 95]
 
 layout0 = [
-    [sg.Text('Browse or enter the path to input file.')],
+    [sg.Text('Browse or enter the path to input file.'), sg.Text('Hover here for Help', relief='raised', tooltip='''Create and excel file with 4 columns.\n
+All the columns should have an heading, the heading names don't matter.\n
+The first column should have the offer IDs.\n
+The second columns must have the offer names. (Note: SDL sheet has different columns for ISA/DSA names and UOW names.)\n
+The thord column must have offer descriptions. Like offer names, there are different columns for ISA/DSA and UOW descriptions.\n
+The fourth column should have the prices. Now depending on what cluster you will use, use the correct prices (Comp/Non Comp)\n
+You don't need to specify complete address, just provide Corp, Market, Cluster, Ftax and EID. (Use in parallel with the EID tool for efficiency.)\n
+Reach out to me for further assistance.''')],
     [sg.In(key='input_file'), sg.FileBrowse(key='file', target='input_file')],
     [sg.Button('Upload', key='upload')]
 ]
@@ -104,7 +117,7 @@ while True:
             path = values['file']
             out_path = '/'.join(values['file'].split('/')[:-1])
             try:
-                data = pd.read_excel(path, usecols = [0, 1, 2], names = ["Offer ID", "Offer Name", "Offer Description"], dtype=str)
+                data = pd.read_excel(path, usecols = [0, 1, 2, 3], names = ["Offer ID", "Offer Name", "Offer Description", "Offer Price"], dtype=str)
             except:
                 sg.Popup('Please select an excel file!')
             else:
