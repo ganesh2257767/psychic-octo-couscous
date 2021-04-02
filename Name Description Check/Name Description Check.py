@@ -72,14 +72,15 @@ def check(url, req, chann, data):
 
 opt_markets = ['K', 'M', 'N', 'G']
 sdl_markets = ['A', 'B', 'I', 'J', 'K', 'M', 'N', 'O', 'P', 'Q', 'V']
-cluster = [10, 21, 90, 91, 93, 95]
+cluster_sdl = [10, 21, 90, 91, 93, 95]
+cluster_opt = [10, 86]
 
 layout0 = [
     [sg.Text('Browse or enter the path to input file.'), sg.Text('Hover here for Help', relief='raised', tooltip='''Create and excel file with 4 columns.\n
 All the columns should have an heading, the heading names don't matter.\n
 The first column should have the offer IDs.\n
-The second columns must have the offer names. (Note: SDL sheet has different columns for ISA/DSA names and UOW names.)\n
-The thord column must have offer descriptions. Like offer names, there are different columns for ISA/DSA and UOW descriptions.\n
+The second column must have the offer names. (Note: SDL sheet has different columns for ISA/DSA names and UOW names.)\n
+The third column must have offer descriptions. (Like offer names, there are different columns for ISA/DSA and UOW descriptions).\n
 The fourth column should have the prices. Now depending on what cluster you will use, use the correct prices (Comp/Non Comp)\n
 You don't need to specify complete address, just provide Corp, Market, Cluster, Ftax and EID. (Use in parallel with the EID tool for efficiency.)\n
 Reach out to me for further assistance.''')],
@@ -87,12 +88,13 @@ Reach out to me for further assistance.''')],
     [sg.Button('Upload', key='upload')]
 ]
 layout = [
-    [sg.Text("Select Area", size = (15, 1)), sg.Radio("Optimum", group_id="area", key="opt", enable_events=True, default=True), sg.Radio("Suddenlink", group_id="area", key="sdl", enable_events=True)],
-    [sg.Text("Select Channel", size = (15, 1)), sg.Radio("ISA/DSA", group_id="channel", key="dsa", enable_events=True, default=True), sg.Radio("UOW", group_id="channel", key="uow", enable_events=True)],
-    [sg.Text("Select Environment", size = (15, 1)), sg.Radio("UAT", group_id="env", key="uat", enable_events=True, default=True), sg.Radio("UAT1", group_id="env", key="uat1", enable_events=True)],
+    [sg.Text("Select Area", size = (15, 1)), sg.Radio("Optimum", group_id="area", key="opt", enable_events=True, default=True, size=(6, 1)), sg.Radio("Suddenlink", group_id="area", key="sdl", enable_events=True)],
+    [sg.Text("Select Channel", size = (15, 1)), sg.Radio("ISA/DSA", group_id="channel", key="dsa", enable_events=True, default=True, size=(6, 1)), sg.Radio("UOW", group_id="channel", key="uow", enable_events=True)],
+    [sg.Text("Select Environment", size = (15, 1)), sg.Radio("UAT", group_id="env", key="uat", enable_events=True, default=True, size=(6, 1)), sg.Radio("UAT1", group_id="env", key="uat1", enable_events=True)],
+    [sg.Text("Promotional?", size = (15, 1)), sg.Radio("Promo", group_id="promo", key="pro", enable_events=True, default=True, size=(6, 1)), sg.Radio("Full Rate", group_id="promo", key="full", enable_events=True)],
     [sg.Text("Enter Corp", size = (15, 1)), sg.InputText(key='corp', size=(8, 1))],
     [sg.Text("Select Market", size = (15, 1)), sg.DropDown(values = opt_markets, key='market', size=(6, 1))],
-    [sg.Text("Select Cluster", size = (15, 1)), sg.DropDown(values = cluster, key='cluster', visible=False, size=(6, 1))],
+    [sg.Text("Select Cluster", size = (15, 1)), sg.DropDown(values = cluster_opt, key='cluster', size=(6, 1))],
     [sg.Text("Enter FTAX", size = (15, 1)), sg.InputText(key='ftax', visible=False, size=(8, 1))],
     [sg.Text("Enter EID", size = (15, 1)), sg.InputText(key='eid', visible=False, size=(8, 1))],
     [sg.Button('Upload another file', key='-ANOTHER-'), sg.Submit("Check", key='-SUBMIT-',  size=(10, 1)), sg.Button('Open output folder', key='-OPEN-', disabled=True)]
@@ -128,16 +130,24 @@ while True:
     
     if event == 'sdl':
         window['market'].update(values=sdl_markets)
-        window['cluster'].update(visible=True)
+        window['cluster'].update(values=cluster_sdl) #send sdl clusters
         window['ftax'].update(visible=True)
         window['eid'].update(visible=True)
 
     if event == 'opt':
         window['market'].update(values=opt_markets)
-        window['cluster'].update(visible=False)
+        window['cluster'].update(values=cluster_opt) #send opt clusters
         window['ftax'].update(visible=False)
         window['eid'].update(visible=False)
 
+    if event == 'uow':
+        window['pro'].update(disabled=True)
+        window['full'].update(disabled=True)
+    
+    if event == 'dsa':
+        window['pro'].update(disabled=False)
+        window['full'].update(disabled=False)
+        
 
     if event == '-SUBMIT-':
         if values['sdl'] and values['uow']:
@@ -170,7 +180,7 @@ while True:
                     url = dsa_uat
                 else:
                     url = dsa_uat1
-                payload = f'''{{"salesContext":{{"localeString":"en_US","salesChannel":"DSL"}},"searchProductOfferingFilterInfo":{{"oolAvailable":true,"ovAvailable":true,"ioAvailable":true,"includeExpiredOfferings":false,"salesRuleContext":{{"customerProfile":{{"anonymous":true}},"customerInfo":{{"customerType":"R","newCustomer":true,"orderType":"Install","isPromotion":true,"eligibilityID":"{values['eid']}"}}}},"eligibilityStatus":[{{"code":"EA"}}]}},"offeringReadMask":{{"value":"SUMMARY"}},"checkCustomerProductOffering":false,"locale":"en_US","cartId":"FTJXQYDN","serviceAddress":{{"apt":"test","fta":"{values['ftax']}","street":"test","city":"test","state":"test","zipcode":"test","type":"","clusterCode":"{values['cluster']}","mkt":"{values['market']}","corp":"{values['corp']}","house":"test","cust":"1"}},"generics":false}}'''
+                payload = f'''{{"salesContext":{{"localeString":"en_US","salesChannel":"DSL"}},"searchProductOfferingFilterInfo":{{"oolAvailable":true,"ovAvailable":true,"ioAvailable":true,"includeExpiredOfferings":false,"salesRuleContext":{{"customerProfile":{{"anonymous":true}},"customerInfo":{{"customerType":"R","newCustomer":true,"orderType":"Install","isPromotion":{values['promo']},"eligibilityID":"{values['eid']}"}}}},"eligibilityStatus":[{{"code":"EA"}}]}},"offeringReadMask":{{"value":"SUMMARY"}},"checkCustomerProductOffering":false,"locale":"en_US","cartId":"FTJXQYDN","serviceAddress":{{"apt":"test","fta":"{values['ftax']}","street":"test","city":"test","state":"test","zipcode":"test","type":"","clusterCode":"{values['cluster']}","mkt":"{values['market']}","corp":"{values['corp']}","house":"test","cust":"1"}},"generics":false}}'''
                 req = json.loads(payload)
                 check(url, req, 'dsa', data)
             else:
@@ -182,7 +192,7 @@ while True:
                     url = dsa_uat
                 else:
                     url = dsa_uat1
-                payload = f'''{{"salesContext":{{"localeString":"en_US","salesChannel":"DSL"}},"searchProductOfferingFilterInfo":{{"oolAvailable":true,"ovAvailable":true,"ioAvailable":true,"includeExpiredOfferings":false,"salesRuleContext":{{"customerProfile":{{"anonymous":true}},"customerInfo":{{"customerType":"R","newCustomer":true,"orderType":"Install","isPromotion":true,"eligibilityID":"test"}}}},"eligibilityStatus":[{{"code":"EA"}}]}},"offeringReadMask":{{"value":"SUMMARY"}},"checkCustomerProductOffering":false,"locale":"en_US","cartId":"FTJXQYDN","serviceAddress":{{"apt":"test","fta":"40","street":"test","city":"test","state":"test","zipcode":"test","type":"","clusterCode":"86","mkt":"{values['market']}","corp":"{values['corp']}","house":"test","cust":"1"}},"generics":false}}'''
+                payload = f'''{{"salesContext":{{"localeString":"en_US","salesChannel":"DSL"}},"searchProductOfferingFilterInfo":{{"oolAvailable":true,"ovAvailable":true,"ioAvailable":true,"includeExpiredOfferings":false,"salesRuleContext":{{"customerProfile":{{"anonymous":true}},"customerInfo":{{"customerType":"R","newCustomer":true,"orderType":"Install","isPromotion":{values['promo']},"eligibilityID":"test"}}}},"eligibilityStatus":[{{"code":"EA"}}]}},"offeringReadMask":{{"value":"SUMMARY"}},"checkCustomerProductOffering":false,"locale":"en_US","cartId":"FTJXQYDN","serviceAddress":{{"apt":"test","fta":"40","street":"test","city":"test","state":"test","zipcode":"test","type":"","clusterCode":"86","mkt":"{values['market']}","corp":"{values['corp']}","house":"test","cust":"1"}},"generics":false}}'''
                 req = json.loads(payload)
                 check(url, req, 'dsa', data)
             else:
