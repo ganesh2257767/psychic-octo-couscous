@@ -69,7 +69,7 @@ def check(url, req, chann, data):
                 sg.Popup(f'Statistics of run\nTotal runs: {len(result)}\nPassed: {result.count("Pass")}\nFailed: {result.count("Fail")}\nNA: {result.count("NA")}')
                 window['-OPEN-'].update(disabled=False)
 
-
+flag = 'true'
 opt_markets = ['K', 'M', 'N', 'G']
 sdl_markets = ['A', 'B', 'I', 'J', 'K', 'M', 'N', 'O', 'P', 'Q', 'V']
 cluster_sdl = [10, 21, 90, 91, 93, 95]
@@ -130,13 +130,13 @@ while True:
     
     if event == 'sdl':
         window['market'].update(values=sdl_markets)
-        window['cluster'].update(values=cluster_sdl) #send sdl clusters
+        window['cluster'].update(values=cluster_sdl)
         window['ftax'].update(visible=True)
         window['eid'].update(visible=True)
 
     if event == 'opt':
         window['market'].update(values=opt_markets)
-        window['cluster'].update(values=cluster_opt) #send opt clusters
+        window['cluster'].update(values=cluster_opt)
         window['ftax'].update(visible=False)
         window['eid'].update(visible=False)
 
@@ -148,7 +148,12 @@ while True:
         window['pro'].update(disabled=False)
         window['full'].update(disabled=False)
         
-
+    if event == 'pro':
+        flag = 'true'
+        
+    if event == 'full':
+        flag = 'false'
+        
     if event == '-SUBMIT-':
         if values['sdl'] and values['uow']:
             if all([values['market'], values['corp'], values['cluster'], values['ftax'], values['eid']]):
@@ -163,12 +168,12 @@ while True:
                 sg.Popup('Enter all the values!')
 
         elif values['opt'] and values['uow']:
-            if all([values['market'], values['corp']]):
+            if all([values['market'], values['corp'], values['cluster']]):
                 if values['uat']:
                     url = uow_uat
                 else:
                     url = uow_uat1
-                payload = f'''{{"productOfferingsRequest":{{"customerInteractionId":"1228012","accountDetails":{{"clust":"86","corp":"{values['corp']}","cust":"1","ftax":"72","hfstatus":"3","house":"test","id":0,"mkt":"{values['market']}","service_housenbr":"test","servicestreetaddr":"test","service_aptn": "test","service_city":"test","service_state":"test","service_zipcode":"test"}},"newCustomer":true,"sessionId":"LDPDPJCBBH08VVL9KKY","shoppingCartId":"FTJXQYDN"}}}}'''
+                payload = f'''{{"productOfferingsRequest":{{"customerInteractionId":"1228012","accountDetails":{{"clust":"{values['cluster']}","corp":"{values['corp']}","cust":"1","ftax":"72","hfstatus":"3","house":"test","id":0,"mkt":"{values['market']}","service_housenbr":"test","servicestreetaddr":"test","service_aptn": "test","service_city":"test","service_state":"test","service_zipcode":"test"}},"newCustomer":true,"sessionId":"LDPDPJCBBH08VVL9KKY","shoppingCartId":"FTJXQYDN"}}}}'''
                 req = json.loads(payload)
                 check(url, req, 'uow', data)
             else:
@@ -180,19 +185,19 @@ while True:
                     url = dsa_uat
                 else:
                     url = dsa_uat1
-                payload = f'''{{"salesContext":{{"localeString":"en_US","salesChannel":"DSL"}},"searchProductOfferingFilterInfo":{{"oolAvailable":true,"ovAvailable":true,"ioAvailable":true,"includeExpiredOfferings":false,"salesRuleContext":{{"customerProfile":{{"anonymous":true}},"customerInfo":{{"customerType":"R","newCustomer":true,"orderType":"Install","isPromotion":{values['promo']},"eligibilityID":"{values['eid']}"}}}},"eligibilityStatus":[{{"code":"EA"}}]}},"offeringReadMask":{{"value":"SUMMARY"}},"checkCustomerProductOffering":false,"locale":"en_US","cartId":"FTJXQYDN","serviceAddress":{{"apt":"test","fta":"{values['ftax']}","street":"test","city":"test","state":"test","zipcode":"test","type":"","clusterCode":"{values['cluster']}","mkt":"{values['market']}","corp":"{values['corp']}","house":"test","cust":"1"}},"generics":false}}'''
+                payload = f'''{{"salesContext":{{"localeString":"en_US","salesChannel":"DSL"}},"searchProductOfferingFilterInfo":{{"oolAvailable":true,"ovAvailable":true,"ioAvailable":true,"includeExpiredOfferings":false,"salesRuleContext":{{"customerProfile":{{"anonymous":true}},"customerInfo":{{"customerType":"R","newCustomer":true,"orderType":"Install","isPromotion":{flag},"eligibilityID":"{values['eid']}"}}}},"eligibilityStatus":[{{"code":"EA"}}]}},"offeringReadMask":{{"value":"SUMMARY"}},"checkCustomerProductOffering":false,"locale":"en_US","cartId":"FTJXQYDN","serviceAddress":{{"apt":"test","fta":"{values['ftax']}","street":"test","city":"test","state":"test","zipcode":"test","type":"","clusterCode":"{values['cluster']}","mkt":"{values['market']}","corp":"{values['corp']}","house":"test","cust":"1"}},"generics":false}}'''
                 req = json.loads(payload)
                 check(url, req, 'dsa', data)
             else:
                 sg.Popup('Enter all the values!')
 
         elif values['opt'] and values['dsa']:
-            if all([values['market'], values['corp']]):
+            if all([values['market'], values['corp'], values['cluster']]):
                 if values['uat']:
                     url = dsa_uat
                 else:
                     url = dsa_uat1
-                payload = f'''{{"salesContext":{{"localeString":"en_US","salesChannel":"DSL"}},"searchProductOfferingFilterInfo":{{"oolAvailable":true,"ovAvailable":true,"ioAvailable":true,"includeExpiredOfferings":false,"salesRuleContext":{{"customerProfile":{{"anonymous":true}},"customerInfo":{{"customerType":"R","newCustomer":true,"orderType":"Install","isPromotion":{values['promo']},"eligibilityID":"test"}}}},"eligibilityStatus":[{{"code":"EA"}}]}},"offeringReadMask":{{"value":"SUMMARY"}},"checkCustomerProductOffering":false,"locale":"en_US","cartId":"FTJXQYDN","serviceAddress":{{"apt":"test","fta":"40","street":"test","city":"test","state":"test","zipcode":"test","type":"","clusterCode":"86","mkt":"{values['market']}","corp":"{values['corp']}","house":"test","cust":"1"}},"generics":false}}'''
+                payload = f'''{{"salesContext":{{"localeString":"en_US","salesChannel":"DSL"}},"searchProductOfferingFilterInfo":{{"oolAvailable":true,"ovAvailable":true,"ioAvailable":true,"includeExpiredOfferings":false,"salesRuleContext":{{"customerProfile":{{"anonymous":true}},"customerInfo":{{"customerType":"R","newCustomer":true,"orderType":"Install","isPromotion":{flag},"eligibilityID":"test"}}}},"eligibilityStatus":[{{"code":"EA"}}]}},"offeringReadMask":{{"value":"SUMMARY"}},"checkCustomerProductOffering":false,"locale":"en_US","cartId":"FTJXQYDN","serviceAddress":{{"apt":"test","fta":"40","street":"test","city":"test","state":"test","zipcode":"test","type":"","clusterCode":"{values['cluster']}","mkt":"{values['market']}","corp":"{values['corp']}","house":"test","cust":"1"}},"generics":false}}'''
                 req = json.loads(payload)
                 check(url, req, 'dsa', data)
             else:
