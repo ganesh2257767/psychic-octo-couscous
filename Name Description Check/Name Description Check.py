@@ -76,7 +76,7 @@ cluster_sdl = [10, 21, 90, 91, 93, 95]
 cluster_opt = [10, 86]
 
 layout0 = [
-    [sg.Text('Browse or enter the path to input file.'), sg.Text('Hover here for Help', relief='raised', tooltip='''Create and excel file with 4 columns.\n
+    [sg.Text('Browse or enter the path to input file.'), sg.Text('Hover here for Help', relief='raised', tooltip='''Create an excel file with 4 columns.\n
 All the columns should have an heading, the heading names don't matter.\n
 The first column should have the offer IDs.\n
 The second column must have the offer names. (Note: SDL sheet has different columns for ISA/DSA names and UOW names.)\n
