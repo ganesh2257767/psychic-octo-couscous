@@ -11,7 +11,7 @@ uow_uat = 'https://ws-uat.suddenlink.com/optimum-online-order-ws/rest/OfferServi
 dsa_uat = 'https://ws-uat.suddenlink.cequel3.com/optimum-ecomm-abstraction-ws/rest/uow/searchProductOffering'
 dsa_uat1 = 'https://ws-uat.suddenlink.cequel3.com/uat1/optimum-ecomm-abstraction-ws/rest/uow/searchProductOffering'
 
-def check(url, req, chann, data):
+def check(url, req, chann, data, ch_param, area):
     try:
         if chann == 'uow':
             res = requests.post(url, json=req, auth=('unittest', 'test01')).json()
@@ -41,11 +41,27 @@ def check(url, req, chann, data):
                     actual_name.append(offer_name_desc[oid][0])
                     actual_description.append(offer_name_desc[oid][1])
                     actual_price.append(offer_name_desc[oid][2])
-                    
-                    if descr.strip() == offer_name_desc[oid][1] and name.strip() == offer_name_desc[oid][0] and f'{float(price):.2f}' == offer_name_desc[oid][2]:
-                        result.append('Pass')
+                    if ch_param == 'all':
+                        if descr.strip() == offer_name_desc[oid][1] and name.strip() == offer_name_desc[oid][0] and f'{float(price):.2f}' == offer_name_desc[oid][2]:
+                            result.append('Pass')
+                        else:
+                            result.append('Fail')
+                            
+                    elif ch_param == 'ch_desc':
+                        if str(descr).strip() == offer_name_desc[oid][1] and name.strip() == offer_name_desc[oid][0]:
+                            result.append('Pass')
+                        else:
+                            result.append('Fail')
+                    elif ch_param == 'ch_price':
+                        if name.strip() == offer_name_desc[oid][0] and f'{float(price):.2f}' == offer_name_desc[oid][2]:
+                            result.append('Pass')
+                        else:
+                            result.append('Fail')
                     else:
-                        result.append('Fail')
+                        if name.strip() == offer_name_desc[oid][0]:
+                            result.append('Pass')
+                        else:
+                            result.append('Fail')
                 else:
                     actual_name.append("Not found")
                     actual_description.append("Not found")
@@ -58,11 +74,12 @@ def check(url, req, chann, data):
             data["Result"] = result
             pass_data = data[data.Result == 'Pass']
             fail_data = data[data.Result == 'Fail']
-            new_input = data[((data.Result == 'Fail') | (data.Result == 'NA'))]
+            new_input = data[data.Result == 'NA']
+            area = '_'.join(area)
             try:
-                pass_data.to_csv(out_path + '/output_pass.csv', mode='a', index=False)
-                fail_data.to_csv(out_path + '/output_fail.csv', mode='a', index=False)
-                new_input.to_excel(out_path + '/next_input.xlsx', index=False)
+                pass_data.to_csv(out_path + f'/{area}_pass.csv', mode='a', index=False)
+                fail_data.to_csv(out_path + f'/{area}_fail.csv', mode='a', index=False)
+                new_input.to_csv(out_path + f'/{area}_NA.csv', mode='w', index=False)
             except:
                 sg.Popup("File already open or present in a folder without permissions!")
             else:
@@ -97,6 +114,12 @@ layout = [
     [sg.Text("Select Cluster", size = (15, 1)), sg.DropDown(values = cluster_opt, key='cluster', size=(6, 1))],
     [sg.Text("Enter FTAX", size = (15, 1)), sg.InputText(key='ftax', visible=False, size=(8, 1))],
     [sg.Text("Enter EID", size = (15, 1)), sg.InputText(key='eid', visible=False, size=(8, 1))],
+    [sg.Text("Check Parameters", size = (15, 1)),
+     sg.Checkbox('Offer ID', default=True, disabled=True, size=(8, 1), background_color='white'),
+     sg.Checkbox('Name', default=True, disabled=True,
+                 size=(8, 1), background_color='white')],
+    [sg.Text("", size=(15, 1)), sg.Checkbox('Description', enable_events=True, key='check_description', size=(8, 1)),
+     sg.Checkbox('Price', enable_events=True, key='check_price', size=(8, 1))],
     [sg.Button('Upload another file', key='-ANOTHER-'), sg.Submit("Check", key='-SUBMIT-',  size=(10, 1)), sg.Button('Open output folder', key='-OPEN-', disabled=True)]
 ]
 
@@ -110,6 +133,7 @@ window = sg.Window('Offer Name/Description Checker', main_layout, icon=icon_path
 
 while True:
     event, values = window.read()
+    print(event, values)
     
     if event == sg.WIN_CLOSED or event == 'Cancel':
         break
@@ -157,49 +181,85 @@ while True:
     if event == '-SUBMIT-':
         if values['sdl'] and values['uow']:
             if all([values['market'], values['corp'], values['cluster'], values['ftax'], values['eid']]):
+                area = (values['corp'], values['ftax'], values['eid'])
                 if values['uat']:
                     url = uow_uat
                 else:
                     url = uow_uat1
                 payload = f'''{{"productOfferingsRequest":{{"customerInteractionId":"1228012","eligibilityID": "{values['eid']}","accountDetails":{{"clust":"{values['cluster']}","corp":"{values['corp']}","cust":"1","eligibilityId": "test","ftax":"{values['ftax']}","hfstatus":"3","house":"test","id":0,"mkt":"{values['market']}","service_housenbr":"test","servicestreetaddr":"test","service_aptn": "test","service_city":"test","service_state":"test","service_zipcode":"test","tdrop": "O"}},"newCustomer":true,"sessionId":"LDPDPJCBBH08VVL9KKY","shoppingCartId":"FTJXQYDN","footprint": "suddenlink"}}}}'''
                 req = json.loads(payload)
-                check(url, req, 'uow', data)
+                if values['check_description'] and values['check_price']:
+                    ch_param = 'all'
+                elif values['check_description']:
+                    ch_param = 'ch_desc'
+                elif values['check_price']:
+                    ch_param = 'ch_price'
+                else:
+                    ch_param = ''
+                check(url, req, 'uow', data, ch_param, area)
             else:
                 sg.Popup('Enter all the values!')
 
         elif values['opt'] and values['uow']:
             if all([values['market'], values['corp'], values['cluster']]):
+                area = (values['corp'], values['ftax'], values['eid'])
                 if values['uat']:
                     url = uow_uat
                 else:
                     url = uow_uat1
                 payload = f'''{{"productOfferingsRequest":{{"customerInteractionId":"1228012","accountDetails":{{"clust":"{values['cluster']}","corp":"{values['corp']}","cust":"1","ftax":"72","hfstatus":"3","house":"test","id":0,"mkt":"{values['market']}","service_housenbr":"test","servicestreetaddr":"test","service_aptn": "test","service_city":"test","service_state":"test","service_zipcode":"test"}},"newCustomer":true,"sessionId":"LDPDPJCBBH08VVL9KKY","shoppingCartId":"FTJXQYDN"}}}}'''
                 req = json.loads(payload)
-                check(url, req, 'uow', data)
+                if values['check_description'] and values['check_price']:
+                    ch_param = 'all'
+                elif values['check_description']:
+                    ch_param = 'ch_desc'
+                elif values['check_price']:
+                    ch_param = 'ch_price'
+                else:
+                    ch_param = ''
+                check(url, req, 'uow', data, ch_param, area)
             else:
                 sg.Popup('Enter all the values!')
         
         elif values['sdl'] and values['dsa']:
             if all([values['market'], values['corp'], values['cluster'], values['ftax'], values['eid']]):
+                area = (values['corp'], values['ftax'], values['eid'])
                 if values['uat']:
                     url = dsa_uat
                 else:
                     url = dsa_uat1
                 payload = f'''{{"salesContext":{{"localeString":"en_US","salesChannel":"DSL"}},"searchProductOfferingFilterInfo":{{"oolAvailable":true,"ovAvailable":true,"ioAvailable":true,"includeExpiredOfferings":false,"salesRuleContext":{{"customerProfile":{{"anonymous":true}},"customerInfo":{{"customerType":"R","newCustomer":true,"orderType":"Install","isPromotion":{flag},"eligibilityID":"{values['eid']}"}}}},"eligibilityStatus":[{{"code":"EA"}}]}},"offeringReadMask":{{"value":"SUMMARY"}},"checkCustomerProductOffering":false,"locale":"en_US","cartId":"FTJXQYDN","serviceAddress":{{"apt":"test","fta":"{values['ftax']}","street":"test","city":"test","state":"test","zipcode":"test","type":"","clusterCode":"{values['cluster']}","mkt":"{values['market']}","corp":"{values['corp']}","house":"test","cust":"1"}},"generics":false}}'''
                 req = json.loads(payload)
-                check(url, req, 'dsa', data)
+                if values['check_description'] and values['check_price']:
+                    ch_param = 'all'
+                elif values['check_description']:
+                    ch_param = 'ch_desc'
+                elif values['check_price']:
+                    ch_param = 'ch_price'
+                else:
+                    ch_param = ''
+                check(url, req, 'dsa', data, ch_param, area)
             else:
                 sg.Popup('Enter all the values!')
 
         elif values['opt'] and values['dsa']:
             if all([values['market'], values['corp'], values['cluster']]):
+                area = (values['corp'], values['ftax'], values['eid'])
                 if values['uat']:
                     url = dsa_uat
                 else:
                     url = dsa_uat1
                 payload = f'''{{"salesContext":{{"localeString":"en_US","salesChannel":"DSL"}},"searchProductOfferingFilterInfo":{{"oolAvailable":true,"ovAvailable":true,"ioAvailable":true,"includeExpiredOfferings":false,"salesRuleContext":{{"customerProfile":{{"anonymous":true}},"customerInfo":{{"customerType":"R","newCustomer":true,"orderType":"Install","isPromotion":{flag},"eligibilityID":"test"}}}},"eligibilityStatus":[{{"code":"EA"}}]}},"offeringReadMask":{{"value":"SUMMARY"}},"checkCustomerProductOffering":false,"locale":"en_US","cartId":"FTJXQYDN","serviceAddress":{{"apt":"test","fta":"40","street":"test","city":"test","state":"test","zipcode":"test","type":"","clusterCode":"{values['cluster']}","mkt":"{values['market']}","corp":"{values['corp']}","house":"test","cust":"1"}},"generics":false}}'''
                 req = json.loads(payload)
-                check(url, req, 'dsa', data)
+                if values['check_description'] and values['check_price']:
+                    ch_param = 'all'
+                elif values['check_description']:
+                    ch_param = 'ch_desc'
+                elif values['check_price']:
+                    ch_param = 'ch_price'
+                else:
+                    ch_param = ''
+                check(url, req, 'dsa', data, ch_param, area)
             else:
                 sg.Popup('Enter all the values!')
 
