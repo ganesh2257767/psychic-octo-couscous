@@ -67,7 +67,7 @@ def check(url, req, chann, data, ch_param, area):
                     actual_description.append("Not found")
                     actual_price.append("Not found")
                     result.append('NA')
-
+            
             data["Actual Name"] = actual_name
             data["Actual Description"] = actual_description
             data["Actual Price"] = actual_price
@@ -76,10 +76,11 @@ def check(url, req, chann, data, ch_param, area):
             fail_data = data[data.Result == 'Fail']
             new_input = data[data.Result == 'NA']
             area = '_'.join(area)
+            
             try:
                 pass_data.to_csv(out_path + f'/{area}_pass.csv', mode='a', index=False)
                 fail_data.to_csv(out_path + f'/{area}_fail.csv', mode='a', index=False)
-                new_input.to_csv(out_path + f'/{area}_NA.csv', mode='w', index=False)
+                new_input.to_excel(out_path + f'/{area}_NA.xlsx', index=False)
             except:
                 sg.Popup("File already open or present in a folder without permissions!")
             else:
@@ -89,8 +90,8 @@ def check(url, req, chann, data, ch_param, area):
 flag = 'true'
 opt_markets = ['K', 'M', 'N', 'G']
 sdl_markets = ['A', 'B', 'I', 'J', 'K', 'M', 'N', 'O', 'P', 'Q', 'V']
-cluster_sdl = [10, 21, 90, 91, 93, 95]
-cluster_opt = [10, 86]
+cluster_sdl = [10, 21, 66, 67, 90, 91, 93, 95]
+cluster_opt = [6, 10, 86]
 
 layout0 = [
     [sg.Text('Browse or enter the path to input file.'), sg.Text('Hover here for Help', relief='raised', tooltip='''Create an excel file with 4 columns.\n
