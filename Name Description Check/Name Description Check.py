@@ -6,10 +6,12 @@ import os
 
 icon_path = os.getcwd()
 
-uow_uat1 = 'https://ws-uat.suddenlink.com/uat1/optimum-online-order-ws/rest/OfferService/getBundles'
 uow_uat = 'https://ws-uat.suddenlink.com/optimum-online-order-ws/rest/OfferService/getBundles'
+uow_uat1 = 'https://ws-uat.suddenlink.com/uat1/optimum-online-order-ws/rest/OfferService/getBundles'
+uow_uat2 = 'https://ws-uat.suddenlink.com/uat2/optimum-online-order-ws/rest/OfferService/getBundles'
 dsa_uat = 'https://ws-uat.suddenlink.cequel3.com/optimum-ecomm-abstraction-ws/rest/uow/searchProductOffering'
 dsa_uat1 = 'https://ws-uat.suddenlink.cequel3.com/uat1/optimum-ecomm-abstraction-ws/rest/uow/searchProductOffering'
+dsa_uat2 = 'https://ws-uat.suddenlink.cequel3.com/uat2/optimum-ecomm-abstraction-ws/rest/uow/searchProductOffering'
 
 def check(url, req, chann, data, ch_param, area):
     try:
@@ -108,7 +110,7 @@ Reach out to me for further assistance.''')],
 layout = [
     [sg.Text("Select Area", size = (15, 1)), sg.Radio("Optimum", group_id="area", key="opt", enable_events=True, default=True, size=(6, 1)), sg.Radio("Suddenlink", group_id="area", key="sdl", enable_events=True)],
     [sg.Text("Select Channel", size = (15, 1)), sg.Radio("ISA/DSA", group_id="channel", key="dsa", enable_events=True, default=True, size=(6, 1)), sg.Radio("UOW", group_id="channel", key="uow", enable_events=True)],
-    [sg.Text("Select Environment", size = (15, 1)), sg.Radio("UAT", group_id="env", key="uat", enable_events=True, default=True, size=(6, 1)), sg.Radio("UAT1", group_id="env", key="uat1", enable_events=True)],
+    [sg.Text("Select Environment", size = (15, 1)), sg.Radio("UAT", group_id="env", key="uat", enable_events=True, default=True, size=(6, 1)), sg.Radio("UAT1", group_id="env", key="uat1", enable_events=True, default=True, size=(6, 1)), sg.Radio("UAT2", group_id="env", key="uat2", enable_events=True)],
     [sg.Text("Promotional?", size = (15, 1)), sg.Radio("Promo", group_id="promo", key="pro", enable_events=True, default=True, size=(6, 1)), sg.Radio("Full Rate", group_id="promo", key="full", enable_events=True)],
     [sg.Text("Enter Corp", size = (15, 1)), sg.InputText(key='corp', size=(8, 1))],
     [sg.Text("Select Market", size = (15, 1)), sg.DropDown(values = opt_markets, key='market', size=(6, 1))],
@@ -134,7 +136,6 @@ window = sg.Window('Offer Name/Description Checker', main_layout, icon=icon_path
 
 while True:
     event, values = window.read()
-    print(event, values)
     
     if event == sg.WIN_CLOSED or event == 'Cancel':
         break
@@ -185,8 +186,10 @@ while True:
                 area = (values['corp'], values['ftax'], values['eid'])
                 if values['uat']:
                     url = uow_uat
-                else:
+                elif values['uat1']:
                     url = uow_uat1
+                else:
+                    url = uow_uat2
                 payload = f'''{{"productOfferingsRequest":{{"customerInteractionId":"1228012","eligibilityID": "{values['eid']}","accountDetails":{{"clust":"{values['cluster']}","corp":"{values['corp']}","cust":"1","eligibilityId": "test","ftax":"{values['ftax']}","hfstatus":"3","house":"test","id":0,"mkt":"{values['market']}","service_housenbr":"test","servicestreetaddr":"test","service_aptn": "test","service_city":"test","service_state":"test","service_zipcode":"test","tdrop": "O"}},"newCustomer":true,"sessionId":"LDPDPJCBBH08VVL9KKY","shoppingCartId":"FTJXQYDN","footprint": "suddenlink"}}}}'''
                 req = json.loads(payload)
                 if values['check_description'] and values['check_price']:
@@ -206,8 +209,10 @@ while True:
                 area = (values['corp'], values['ftax'], values['eid'])
                 if values['uat']:
                     url = uow_uat
-                else:
+                elif values['uat1']:
                     url = uow_uat1
+                else:
+                    url = uow_uat2
                 payload = f'''{{"productOfferingsRequest":{{"customerInteractionId":"1228012","accountDetails":{{"clust":"{values['cluster']}","corp":"{values['corp']}","cust":"1","ftax":"72","hfstatus":"3","house":"test","id":0,"mkt":"{values['market']}","service_housenbr":"test","servicestreetaddr":"test","service_aptn": "test","service_city":"test","service_state":"test","service_zipcode":"test"}},"newCustomer":true,"sessionId":"LDPDPJCBBH08VVL9KKY","shoppingCartId":"FTJXQYDN"}}}}'''
                 req = json.loads(payload)
                 if values['check_description'] and values['check_price']:
@@ -227,8 +232,10 @@ while True:
                 area = (values['corp'], values['ftax'], values['eid'])
                 if values['uat']:
                     url = dsa_uat
-                else:
+                elif values['uat1']:
                     url = dsa_uat1
+                else:
+                    url = dsa_uat2
                 payload = f'''{{"salesContext":{{"localeString":"en_US","salesChannel":"DSL"}},"searchProductOfferingFilterInfo":{{"oolAvailable":true,"ovAvailable":true,"ioAvailable":true,"includeExpiredOfferings":false,"salesRuleContext":{{"customerProfile":{{"anonymous":true}},"customerInfo":{{"customerType":"R","newCustomer":true,"orderType":"Install","isPromotion":{flag},"eligibilityID":"{values['eid']}"}}}},"eligibilityStatus":[{{"code":"EA"}}]}},"offeringReadMask":{{"value":"SUMMARY"}},"checkCustomerProductOffering":false,"locale":"en_US","cartId":"FTJXQYDN","serviceAddress":{{"apt":"test","fta":"{values['ftax']}","street":"test","city":"test","state":"test","zipcode":"test","type":"","clusterCode":"{values['cluster']}","mkt":"{values['market']}","corp":"{values['corp']}","house":"test","cust":"1"}},"generics":false}}'''
                 req = json.loads(payload)
                 if values['check_description'] and values['check_price']:
@@ -248,8 +255,10 @@ while True:
                 area = (values['corp'], values['ftax'], values['eid'])
                 if values['uat']:
                     url = dsa_uat
-                else:
+                elif values['uat1']:
                     url = dsa_uat1
+                else:
+                    url = dsa_uat2
                 payload = f'''{{"salesContext":{{"localeString":"en_US","salesChannel":"DSL"}},"searchProductOfferingFilterInfo":{{"oolAvailable":true,"ovAvailable":true,"ioAvailable":true,"includeExpiredOfferings":false,"salesRuleContext":{{"customerProfile":{{"anonymous":true}},"customerInfo":{{"customerType":"R","newCustomer":true,"orderType":"Install","isPromotion":{flag},"eligibilityID":"test"}}}},"eligibilityStatus":[{{"code":"EA"}}]}},"offeringReadMask":{{"value":"SUMMARY"}},"checkCustomerProductOffering":false,"locale":"en_US","cartId":"FTJXQYDN","serviceAddress":{{"apt":"test","fta":"40","street":"test","city":"test","state":"test","zipcode":"test","type":"","clusterCode":"{values['cluster']}","mkt":"{values['market']}","corp":"{values['corp']}","house":"test","cust":"1"}},"generics":false}}'''
                 req = json.loads(payload)
                 if values['check_description'] and values['check_price']:
