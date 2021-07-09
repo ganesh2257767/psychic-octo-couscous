@@ -26,33 +26,33 @@ def from_eid(eid):
             f'{eid.upper()} not available or invalid, please check and try again!', title='Error')
 
 
-def get_corp_ftax(corp, id, df):
+def get_corp_ftax(corp, offer_id, df):
     corpftax_altice = set()
     corpftax_legacy = set()
     corpftax_altice_unltd = set()
     corpftax_legacy_unltd = set()
     offer_eid = set()
     for i in df.index:
-        if df[2][i] == id:
+        if df[2][i] == offer_id:
             offer_eid.add(df[1][i])
 
     for j in master_df.index:
         if master_df[1][j] in corp:
-            if master_df[5][j] == 'ALTICE ONE' and master_df[3][j] in offer_eid and master_df[6][j] == 'X':
+            if master_df[5][j] == 'Y' and master_df[3][j] in offer_eid and master_df[6][j] == 'N':
                 corpftax_altice.add(
-                    str(master_df[2][j]) + ' - ' + master_df[4][j].strip() + ' - ' + master_df[3][j].strip())
+                    str(master_df[2][j])[:-2] + ' - ' + master_df[4][j].strip() + ' - ' + master_df[3][j].strip())
 
-            if master_df[5][j] == 'ALTICE ONE' and master_df[3][j] in offer_eid and master_df[6][j] == 'Unmetered':
+            if master_df[5][j] == 'Y' and master_df[3][j] in offer_eid and master_df[6][j] == 'Y':
                 corpftax_altice_unltd.add(
-                    str(master_df[2][j]) + ' - ' + master_df[4][j].strip() + ' - ' + master_df[3][j].strip())
+                     str(master_df[2][j])[:-2] + ' - ' + master_df[4][j].strip() + ' - ' + master_df[3][j].strip())
 
-            if master_df[5][j] == 'X' and master_df[3][j] in offer_eid and master_df[6][j] == 'X':
+            if master_df[5][j] == 'N' and master_df[3][j] in offer_eid and master_df[6][j] == 'N':
                 corpftax_legacy.add(
-                    str(master_df[2][j]) + ' - ' + master_df[4][j].strip() + ' - ' + master_df[3][j].strip())
+                     str(master_df[2][j])[:-2] + ' - ' + master_df[4][j].strip() + ' - ' + master_df[3][j].strip())
 
-            if master_df[5][j] == 'X' and master_df[3][j] in offer_eid and master_df[6][j] == 'Unmetered':
+            if master_df[5][j] == 'N' and master_df[3][j] in offer_eid and master_df[6][j] == 'Y':
                 corpftax_legacy_unltd.add(
-                    str(master_df[2][j]) + ' - ' + master_df[4][j].strip() + ' - ' + master_df[3][j].strip())
+                    str(master_df[2][j])[:-2] + ' - ' + master_df[4][j].strip() + ' - ' + master_df[3][j].strip())
 
     if corpftax_legacy or corpftax_altice or corpftax_altice_unltd or corpftax_legacy_unltd:
         sg.PopupScrolled(
@@ -109,17 +109,17 @@ window = sg.Window('Corp Ftax Combination checker', layout, resizable=True, icon
 upload_flag = True
 while True:
     event, values = window.read()
-    print(f'Event: {event} | Values: {values}')
     if event == sg.WIN_CLOSED or event == 'Cancel':
         break
 
     if event == '-UPLOAD0-':
         if values['-FILE0-']:
             path = values['-FILE0-']
-            columns = [0, 2, 3, 7, 12, 13]
+            columns = [0, 2, 3, 6, 13, 14]
             colnames = [1, 2, 3, 4, 5, 6]
 
             master_df = pd.read_excel(path, usecols=columns, names=colnames)
+            print(master_df.dtypes)
             window['-COL0-'].update(visible=False)
             window['-FCOL-'].update(visible=True)
 
