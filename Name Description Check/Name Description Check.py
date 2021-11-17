@@ -17,77 +17,84 @@ def check(url, req, chann, data, ch_param, area):
     try:
         if chann == 'uow':
             res = requests.post(url, json=req, auth=('unittest', 'test01')).json()
+            print(res)
             offers = res["productOfferings"]["productOfferingResults"]
         elif chann == 'dsa':
             res = requests.post(url, json=req, verify=False).json()
+            print(res)
             offers = res["searchProductOfferingReturn"]["productOfferingResults"]
-
     except:
         sg.Popup("Something went wrong, try again!")
     else:
         offer_name_desc = {}
-        for offer in offers:
-            offer_id = str(offer["matchingProductOffering"]["ID"])
-            offer_name = offer["matchingProductOffering"]["title"]
-            offer_desc = offer["matchingProductOffering"]["description"]
-            offer_price = str(offer["matchingProductOffering"]["startingPrice"])
-
+        if len(offers) == 1:
+            offer_id = str(offers["matchingProductOffering"]["ID"])
+            offer_name = offers["matchingProductOffering"]["title"]
+            offer_desc = offers["matchingProductOffering"]["description"]
+            offer_price = str(offers["matchingProductOffering"]["startingPrice"])
             offer_name_desc[offer_id] = [offer_name, offer_desc, offer_price]
         else:
-            actual_name = []
-            actual_description = []
-            actual_price = []
-            result = []
-            for oid, name, descr, price in zip(data['Offer ID'], data['Offer Name'], data['Offer Description'], data['Offer Price']):
-                if oid in offer_name_desc.keys():
-                    actual_name.append(offer_name_desc[oid][0])
-                    actual_description.append(offer_name_desc[oid][1])
-                    actual_price.append(offer_name_desc[oid][2])
-                    if ch_param == 'all':
-                        if descr.strip() == offer_name_desc[oid][1] and name.strip() == offer_name_desc[oid][0] and f'{float(price):.2f}' == offer_name_desc[oid][2]:
-                            result.append('Pass')
-                        else:
-                            result.append('Fail')
-                            
-                    elif ch_param == 'ch_desc':
-                        if str(descr).strip() == offer_name_desc[oid][1] and name.strip() == offer_name_desc[oid][0]:
-                            result.append('Pass')
-                        else:
-                            result.append('Fail')
-                    elif ch_param == 'ch_price':
-                        if name.strip() == offer_name_desc[oid][0] and f'{float(price):.2f}' == offer_name_desc[oid][2]:
-                            result.append('Pass')
-                        else:
-                            result.append('Fail')
+            for offer in offers:
+                offer_id = str(offer["matchingProductOffering"]["ID"])
+                offer_name = offer["matchingProductOffering"]["title"]
+                offer_desc = offer["matchingProductOffering"]["description"]
+                offer_price = str(offer["matchingProductOffering"]["startingPrice"])
+                offer_name_desc[offer_id] = [offer_name, offer_desc, offer_price]
+            
+        actual_name = []
+        actual_description = []
+        actual_price = []
+        result = []
+        for oid, name, descr, price in zip(data['Offer ID'], data['Offer Name'], data['Offer Description'], data['Offer Price']):
+            if oid in offer_name_desc.keys():
+                actual_name.append(offer_name_desc[oid][0])
+                actual_description.append(offer_name_desc[oid][1])
+                actual_price.append(offer_name_desc[oid][2])
+                if ch_param == 'all':
+                    if descr.strip() == offer_name_desc[oid][1] and name.strip() == offer_name_desc[oid][0] and f'{float(price):.2f}' == offer_name_desc[oid][2]:
+                        result.append('Pass')
                     else:
-                        if name.strip() == offer_name_desc[oid][0]:
-                            result.append('Pass')
-                        else:
-                            result.append('Fail')
+                        result.append('Fail')
+                        
+                elif ch_param == 'ch_desc':
+                    if str(descr).strip() == offer_name_desc[oid][1] and name.strip() == offer_name_desc[oid][0]:
+                        result.append('Pass')
+                    else:
+                        result.append('Fail')
+                elif ch_param == 'ch_price':
+                    if name.strip() == offer_name_desc[oid][0] and f'{float(price):.2f}' == offer_name_desc[oid][2]:
+                        result.append('Pass')
+                    else:
+                        result.append('Fail')
                 else:
-                    actual_name.append("Not found")
-                    actual_description.append("Not found")
-                    actual_price.append("Not found")
-                    result.append('NA')
-            
-            data["Actual Name"] = actual_name
-            data["Actual Description"] = actual_description
-            data["Actual Price"] = actual_price
-            data["Result"] = result
-            pass_data = data[data.Result == 'Pass']
-            fail_data = data[data.Result == 'Fail']
-            new_input = data[data.Result == 'NA']
-            area = '_'.join(area)
-            
-            try:
-                pass_data.to_csv(out_path + f'/{area}_pass.csv', mode='a', index=False)
-                fail_data.to_csv(out_path + f'/{area}_fail.csv', mode='a', index=False)
-                new_input.to_excel(out_path + f'/{area}_NA.xlsx', index=False)
-            except:
-                sg.Popup("File already open or present in a folder without permissions!")
+                    if name.strip() == offer_name_desc[oid][0]:
+                        result.append('Pass')
+                    else:
+                        result.append('Fail')
             else:
-                sg.Popup(f'Statistics of run\nTotal runs: {len(result)}\nPassed: {result.count("Pass")}\nFailed: {result.count("Fail")}\nNA: {result.count("NA")}')
-                window['-OPEN-'].update(disabled=False)
+                actual_name.append("Not found")
+                actual_description.append("Not found")
+                actual_price.append("Not found")
+                result.append('NA')
+        
+        data["Actual Name"] = actual_name
+        data["Actual Description"] = actual_description
+        data["Actual Price"] = actual_price
+        data["Result"] = result
+        pass_data = data[data.Result == 'Pass']
+        fail_data = data[data.Result == 'Fail']
+        new_input = data[data.Result == 'NA']
+        area = '_'.join(area)
+        
+        try:
+            pass_data.to_csv(out_path + f'/{area}_pass.csv', mode='a', index=False)
+            fail_data.to_csv(out_path + f'/{area}_fail.csv', mode='a', index=False)
+            new_input.to_excel(out_path + f'/{area}_NA.xlsx', index=False)
+        except:
+            sg.Popup("File already open or present in a folder without permissions!")
+        else:
+            sg.Popup(f'Statistics of run\nTotal runs: {len(result)}\nPassed: {result.count("Pass")}\nFailed: {result.count("Fail")}\nNA: {result.count("NA")}')
+            window['-OPEN-'].update(disabled=False)
 
 flag = 'true'
 opt_markets = ['K', 'M', 'N', 'G']

@@ -1,12 +1,12 @@
-import PySimpleGUI as sg
-import pandas as pd
-import os
+from PySimpleGUI import PopupScrolled, Popup, Radio, Button, Text, In, FileBrowse, InputText, Column, Window, WIN_CLOSED
+from pandas import DataFrame, read_excel
+from os import getcwd
 
-ico_path = os.getcwd()
-eid_df = pd.DataFrame()
+ico_path = getcwd()
+eid_df = DataFrame()
 
 def fmtcols(mylist, cols):
-    lines = ("\t | \t".join(mylist[i:i+cols]) for i in range(0,len(mylist),cols))
+    lines = (f"    |    ".join(mylist[i:i+cols]) for i in range(0,len(mylist),cols))
     return '\n\n'.join(lines)
 
 
@@ -18,11 +18,11 @@ def from_eid(eid):
             corp_ftax.append(a)
 
     if corp_ftax:
-        sg.PopupScrolled(
+        PopupScrolled(
             f'Following corp/ftax combinations have EID: {eid.upper()}\n', fmtcols(corp_ftax, 5), size=(100, 20), title=f'{eid.upper()}')
 
     else:
-        sg.Popup(
+        Popup(
             f'{eid.upper()} not available or invalid, please check and try again!', title='Error')
 
 
@@ -31,11 +31,7 @@ def get_corp_ftax(corp, offer_id, df):
     corpftax_legacy = set()
     corpftax_altice_unltd = set()
     corpftax_legacy_unltd = set()
-    offer_eid = set()
-    for i in df.index:
-        if df[2][i] == offer_id:
-            offer_eid.add(df[1][i])
-
+    offer_eid = {df[1][i] for i in df.index if df[2][i] == offer_id}
     for j in master_df.index:
         if master_df[1][j] in corp:
             if master_df[5][j] == 'Y' and master_df[3][j] in offer_eid and master_df[6][j] == 'N':
@@ -55,89 +51,86 @@ def get_corp_ftax(corp, offer_id, df):
                     str(master_df[2][j])[:-2] + ' - ' + master_df[4][j].strip() + ' - ' + master_df[3][j].strip())
 
     if corpftax_legacy or corpftax_altice or corpftax_altice_unltd or corpftax_legacy_unltd:
-        sg.PopupScrolled(
-            f'Offer ID {id} available in following corp/ftax combinations \n\nAltice One - Unlimited Combinations\n', fmtcols(sorted(corpftax_altice_unltd), 4), '\n\nAltice One - Limited Combinations\n', fmtcols(sorted(corpftax_altice), 4), '\n\nLegacy - Unlimited Combinations\n', fmtcols(sorted(corpftax_legacy_unltd), 4), '\n\nLegacy - Limited Combinations\n', fmtcols(sorted(corpftax_legacy), 4), size=(100, 20), title=f'{id}')
+        PopupScrolled(
+            f'Offer ID {offer_id} available in following corp/ftax combinations \n\nAltice One - Unlimited Combinations\n', fmtcols(sorted(corpftax_altice_unltd), 3), '\n\nAltice One - Limited Combinations\n', fmtcols(sorted(corpftax_altice), 3), '\n\nLegacy - Unlimited Combinations\n', fmtcols(sorted(corpftax_legacy_unltd), 3), '\n\nLegacy - Limited Combinations\n', fmtcols(sorted(corpftax_legacy), 3), size=(100, 20), title=f'{offer_id}')
     else:
-        sg.Popup(
-            f'Offer {id} not available in {corp} or is invalid!\n\nPlease check offer ID or change corp and try again!', title='Error')
+        Popup(
+            f'Offer {offer_id} not available in {corp} or is invalid!\n\nPlease check offer ID or change corp and try again!', title='Error')
 
 
 first_layout = [
-    [sg.Radio('Search with EID', 'type', key='-SEID-'),
-     sg.Radio('Search with Offer ID', 'type', key='-SOID-')],
-    [sg.Button('Submit', key='-TYPESUBMIT-')]
+    [Radio('Search with EID', 'type', key='-SEID-'),
+     Radio('Search with Offer ID', 'type', key='-SOID-')],
+    [Button('Submit', key='-TYPESUBMIT-')]
 ]
 
 layout0 = [
-    [sg.Text('Upload the Latest Altice West Master Matrix Excel')],
-    [sg.In(key='-FILE0-', disabled=True), sg.FileBrowse()],
-    [sg.Button('Upload', key='-UPLOAD0-')]
+    [Text('Upload the Latest Altice West Master Matrix Excel')],
+    [In(key='-FILE0-', disabled=True), FileBrowse()],
+    [Button('Upload', key='-UPLOAD0-')]
 ]
 
 layout1 = [
-    [sg.Text('Upload the Latest EID Excel')],
-    [sg.In(key='-FILE-', disabled=True), sg.FileBrowse()],
-    [sg.Button('Upload', key='-UPLOAD-')]
+    [Text('Upload the Latest EID Excel')],
+    [In(key='-FILE-', disabled=True), FileBrowse()],
+    [Button('Upload', key='-UPLOAD-')]
 ]
 
 layout2 = [
-    [sg.Text(key='-SHEETNAME-', size=(50, 1))],
-    [sg.Text('Enter Offer ID'), sg.InputText(key='-ID-')],
-    [sg.Radio('QA 2', 'corp', key='-QA2-', default=True), sg.Radio('QA INT',
-                                                                   'corp', key='-QAINT-'), sg.Radio('Other corps', 'corp', key='-OTHERS-')],
-    [sg.Button('Submit', key='-SUBMIT-'),
-     sg.Button('Upload another file', key='-ANOTHER-')]
+    [Text(key='-SHEETNAME-', size=(50, 1))],
+    [Text('Enter Offer ID'), InputText(key='-ID-')],
+    [Radio('QA 2', 'corp', key='-QA2-', default=True), Radio('QA INT',
+                                                                   'corp', key='-QAINT-'), Radio('Other corps', 'corp', key='-OTHERS-')],
+    [Button('Submit', key='-SUBMIT-'),
+     Button('Upload another file', key='-ANOTHER-')]
 ]
 
 layout3 = [
-    [sg.Text('Enter EID'), sg.InputText(key='-EID-')],
-    [sg.Button('Submit', key='-SUBMIT1-')]
+    [Text('Enter EID'), InputText(key='-EID-')],
+    [Button('Submit', key='-SUBMIT1-')]
 ]
 
 layout = [
     [
-        sg.Column(layout0, key='-COL0-'),
-        sg.Column(first_layout, key='-FCOL-', visible=False),
-        sg.Column(layout1, key='-COL1-', visible=False),
-        sg.Column(layout2, key='-COL2-', visible=False),
-        sg.Column(layout3, key='-COL3-', visible=False)]
+        Column(layout0, key='-COL0-'),
+        Column(first_layout, key='-FCOL-', visible=False),
+        Column(layout1, key='-COL1-', visible=False),
+        Column(layout2, key='-COL2-', visible=False),
+        Column(layout3, key='-COL3-', visible=False)]
 ]
 
 
-window = sg.Window('Corp Ftax Combination checker', layout, resizable=True, icon=ico_path+'\\main1.ico')
+window = Window('Corp Ftax Combination checker', layout, resizable=True, icon=ico_path+'\\main1.ico')
 
 upload_flag = True
 while True:
     event, values = window.read()
-    if event == sg.WIN_CLOSED or event == 'Cancel':
+    if event in [WIN_CLOSED, 'Cancel']:
         break
 
-    if event == '-UPLOAD0-':
-        if values['-FILE0-']:
-            path = values['-FILE0-']
-            columns = [0, 2, 3, 6, 13, 14]
-            colnames = [1, 2, 3, 4, 5, 6]
+    if event == '-UPLOAD0-' and values['-FILE0-']:
+        path = values['-FILE0-']
+        columns = [0, 2, 3, 6, 13, 14]
+        colnames = [1, 2, 3, 4, 5, 6]
 
-            master_df = pd.read_excel(path, usecols=columns, names=colnames)
-            print(master_df.dtypes)
-            window['-COL0-'].update(visible=False)
-            window['-FCOL-'].update(visible=True)
+        master_df = read_excel(path, usecols=columns, names=colnames)
+        window['-COL0-'].update(visible=False)
+        window['-FCOL-'].update(visible=True)
 
     if event == '-TYPESUBMIT-' and values['-SOID-']:
         window['-COL3-'].update(visible=False)
         window['-COL2-'].update(visible=False)
         window['-COL1-'].update(visible=True)
 
-    if event == '-UPLOAD-':
-        if values['-FILE-']:
-            upload_flag = False
-            path1 = values['-FILE-']
-            filename = values['-FILE-'].split('/')[-1]
+    if event == '-UPLOAD-' and values['-FILE-']:
+        upload_flag = False
+        path1 = values['-FILE-']
+        filename = values['-FILE-'].split('/')[-1]
 
-            eid_df = pd.read_excel(path1, usecols=[0, 1], names=[1, 2])
-            window['-SHEETNAME-'].update(f'File Uploaded: {filename}')
-            window['-COL1-'].update(visible=False)
-            window['-COL2-'].update(visible=True)
+        eid_df = read_excel(path1, usecols=[0, 1], names=[1, 2])
+        window['-SHEETNAME-'].update(f'File Uploaded: {filename}')
+        window['-COL1-'].update(visible=False)
+        window['-COL2-'].update(visible=True)
 
     if event == '-SUBMIT-':
         offer_id = values['-ID-']
@@ -151,7 +144,7 @@ while True:
         try:
             offer_id = int(offer_id)
         except:
-            sg.Popup('Enter numerical value')
+            Popup('Enter numerical value')
         else:
             get_corp_ftax(corp, offer_id, eid_df)
 
