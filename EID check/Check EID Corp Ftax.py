@@ -43,7 +43,7 @@ def get_corp_ftax(corp, offer_id, df):
                 corpftax_legacy.add(
                      str(master_df[2][j])[:-2] + ' - ' + master_df[4][j].strip() + ' - ' + master_df[3][j].strip())
 
-            else:
+            elif master_df[3][j] in offer_eid:
                 smb.add(str(master_df[2][j])[:-2] + ' - ' + master_df[4][j].strip() + ' - ' + master_df[3][j].strip())
 
 
