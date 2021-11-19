@@ -2,7 +2,9 @@ import PySimpleGUI as sg
 import requests
 import json
 import os
-import threading
+import concurrent.futures
+from threading import Thread
+from queue import Queue
 
 os.makedirs('JSON Files', exist_ok=True)
 ico_path = os.getcwd()
@@ -104,10 +106,8 @@ def find_address(values):
                     with open('searchProductOffering_response.json', 'w+', encoding='utf-8') as spo_res:
                         spo_res.write(json.dumps(searchProductOffering_response, indent=4))
 
-                    sg.PopupOK('Done, request response files created.', title='Success')
-                
-                    window['-UPDATECART-'].update(disabled=False)
                     window['offerID'].update(values = offer_list)
+                    window.write_event_value('-DONE-', 'Done')
                     return offers, env, cartID, channel, zip_code, ftax, corp, city, street, market, cluster, state, house, cust
 
 def update_cart(offers, add_details):
@@ -140,7 +140,7 @@ def update_cart(offers, add_details):
             with open(f'{offerID}_{offerName}_response.json', 'w+', encoding='utf-8') as usc_res:
                 usc_res.write(json.dumps(updateShoppingCart_response, indent=4))
 
-            sg.PopupOK('Done, Shopping cart updated.', title='Success')
+            window.write_event_value('-DONE1-', 'Done')
 
 
 layout1 = [
@@ -168,15 +168,21 @@ layout = [
 
 window = sg.Window('Request Reponse', layout, icon=ico_path+'\\req.ico', resizable=True)
 
+
+
 while True:
     event, values = window.read()
-    print(f'Event: {event} | Values: {values}')
     if event == sg.WIN_CLOSED or event == 'Cancel':
         break
     
     if event == '-SUBMIT-':
-        offers, *add_details = find_address(values)
-                        
+        q1 = Queue()
+        Thread(target=lambda q, a: q.put(find_address(a)), args=(q1, values), daemon=True).start()
+    
+    if event == '-DONE-':
+        offers, *add_details = q1.get()
+        sg.PopupOK('Done, request response files created.', title='Success')
+        window['-UPDATECART-'].update(disabled=False)
                 
     if event in ('-FOLD-', '-FOLD1-'):
         os.startfile(path)
@@ -192,7 +198,9 @@ while True:
 
 
     if event == '-UPDATE-':
-        update_cart(offers, add_details)
+        Thread(target=lambda q, a, b: q.put(update_cart(a, b)), args=(q1, offers, add_details), daemon=True).start()
 
+    if event == '-DONE1-':
+        sg.PopupOK('Done, Shopping cart updated.', title='Success')
 
 window.close()
